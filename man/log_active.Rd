@@ -17,7 +17,7 @@ Check if the log is running.
 \examples{
   path <- tempfile()
   log_active()
-  log_start(seconds = 1, path = path)
+  log_start(seconds = 0.5, path = path)
   log_active()
   Sys.sleep(2)
   log_stop()

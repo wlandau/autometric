@@ -1,1 +1,2 @@
-PKG_LIBS += -lpsapi
+PKG_CFLAGS = -pthread
+PKG_LIBS = -lpsapi -lpthread

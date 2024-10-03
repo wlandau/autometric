@@ -62,7 +62,7 @@ the first one.
 }
 \examples{
   path <- tempfile()
-  log_start(seconds = 1, path = path)
+  log_start(seconds = 0.5, path = path)
   Sys.sleep(2)
   log_stop()
   Sys.sleep(2)

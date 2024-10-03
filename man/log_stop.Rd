@@ -24,7 +24,7 @@ lines in the log even after you call \code{\link[=log_stop]{log_stop()}}.
 }
 \examples{
   path <- tempfile()
-  log_start(seconds = 1, path = path)
+  log_start(seconds = 0.5, path = path)
   Sys.sleep(2)
   log_stop()
   log_read(path)
