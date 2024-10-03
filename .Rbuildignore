@@ -1,6 +1,8 @@
 ^.*\.Rproj$
+^\.DS_Store$
 ^\.github$
 ^\.Rproj\.user$
+^docs$
 ^NOTICE$
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
