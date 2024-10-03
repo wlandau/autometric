@@ -1,5 +1,5 @@
 Package: autometric
-Title: Background Resource Monitoring
+Title: Background Resource Logging
 Description: Intense parallel workloads can be difficult to monitor.
   Packages 'crew.cluster', 'clustermq', and 'future.batchtools'
   distribute hundreds of worker processes over multiple computers.
