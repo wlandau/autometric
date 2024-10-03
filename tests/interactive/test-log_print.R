@@ -19,5 +19,11 @@ process <- callr::r_bg(
 message(Sys.getpid())
 message(process$get_pid())
 
-log_print(seconds = 2, pids = c(Sys.getpid(), process$get_pid()))
-log_stop()
+path <- tempfile()
+log_print(
+  path = path,
+  seconds = 2,
+  pids = c(Sys.getpid(), process$get_pid())
+)
+log_read(path)
+unlink(path)

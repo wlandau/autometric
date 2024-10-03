@@ -10,9 +10,12 @@
 #' @return `NULL` (invisibly). Called for its side effects.
 #' @inheritParams log_print
 #' @param seconds Positive number, number of seconds between writes to the
-#'   log file. This number should be at least 1, usually more.
+#'   log file. This number should be noticeably large, anywhere between
+#'   half a second to several seconds or minutes.
 #'   A low number of seconds could burden the operating system
-#'   and generate large log files.
+#'   and generate large log files. Because of the way CPU usage measurements
+#'   work, the first log entry starts only after after the first interval of
+#'   `seconds` has passed.
 #' @examples
 #'   path <- tempfile()
 #'   log_start(seconds = 0.5, path = path)

@@ -88,7 +88,11 @@ void* pthread_run(void* arg) {
     free(metrics_array);
     return NULL;
   }
+  for (int i = 0; i < args->n_pids; ++i) {
+    metrics_iteration(metrics_array + i, args->path, args->pids[i]);
+  }
   while (1) {
+    sleep_interval(sleep_spec);
     if (!pthread_run_flag_get()) {
       break;
     }
@@ -101,7 +105,6 @@ void* pthread_run(void* arg) {
         args->names[i]
       );
     }
-    sleep_interval(sleep_spec);
   }
   pthread_args_free(args);
   free(metrics_array);

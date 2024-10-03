@@ -1,4 +1,4 @@
-# autometric 0.0.1
+# autometric 0.0.3
 
 * First version
 

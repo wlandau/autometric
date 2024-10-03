@@ -31,9 +31,12 @@ prints from a detached POSIX thread where it is unsafe to
 use \code{Rprintf()} or \code{REprintf()}.}
 
 \item{seconds}{Positive number, number of seconds between writes to the
-log file. This number should be at least 1, usually more.
+log file. This number should be noticeably large, anywhere between
+half a second to several seconds or minutes.
 A low number of seconds could burden the operating system
-and generate large log files.}
+and generate large log files. Because of the way CPU usage measurements
+work, the first log entry starts only after after the first interval of
+\code{seconds} has passed.}
 
 \item{pids}{Nonempty vector of non-negative integers
 of process IDs to monitor. NOTE: On Mac OS, only the currently running
