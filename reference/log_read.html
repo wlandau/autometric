@@ -55,9 +55,10 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">log_read</span><span class="op">(</span></span>
 <span>  <span class="va">path</span>,</span>
-<span>  units_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seconds"</span>, <span class="st">"minutes"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span><span class="op">)</span>,</span>
 <span>  units_cpu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"percentage"</span>, <span class="st">"fraction"</span><span class="op">)</span>,</span>
-<span>  units_memory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"megabytes"</span>, <span class="st">"bytes"</span>, <span class="st">"kilobytes"</span>, <span class="st">"gigabytes"</span><span class="op">)</span></span>
+<span>  units_memory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"megabytes"</span>, <span class="st">"bytes"</span>, <span class="st">"kilobytes"</span>, <span class="st">"gigabytes"</span><span class="op">)</span>,</span>
+<span>  units_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seconds"</span>, <span class="st">"minutes"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span><span class="op">)</span>,</span>
+<span>  hidden <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -66,14 +67,8 @@
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>Character string, file path of the log to read.
-Must be a regular text file and not a directory.</p></dd>
-
-
-<dt id="arg-units-time">units_time<a class="anchor" aria-label="anchor" href="#arg-units-time"></a></dt>
-<dd><p>Character string, units of the <code>time</code> field.
-Defaults to <code>"seconds"</code> and must be in
-<code>c("seconds", "minutes", "hours", "days")</code>.</p></dd>
+<dd><p>Character vector of paths to files and/or directories
+of logs to read.</p></dd>
 
 
 <dt id="arg-units-cpu">units_cpu<a class="anchor" aria-label="anchor" href="#arg-units-cpu"></a></dt>
@@ -85,6 +80,17 @@ Defaults to <code>"percentage"</code> and must be in <code>c("percentage", "frac
 <dd><p>Character string with the units of the
 <code>memory</code> field. Defaults to <code>"megabytes"</code> and must be in
 <code>c("megabytes", "bytes", "kilobytes", "gigabytes")</code>.</p></dd>
+
+
+<dt id="arg-units-time">units_time<a class="anchor" aria-label="anchor" href="#arg-units-time"></a></dt>
+<dd><p>Character string, units of the <code>time</code> field.
+Defaults to <code>"seconds"</code> and must be in
+<code>c("seconds", "minutes", "hours", "days")</code>.</p></dd>
+
+
+<dt id="arg-hidden">hidden<a class="anchor" aria-label="anchor" href="#arg-hidden"></a></dt>
+<dd><p><code>TRUE</code> to include hidden files in the files and directories
+listed in <code>path</code>, <code>FALSE</code> to omit.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -152,10 +158,11 @@ into the units  <code>units_time</code>,
 <span class="r-in"><span>  <span class="fu"><a href="log_stop.html">log_stop</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu">log_read</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   version  pid  name status  time core cpu resident  virtual</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0.0.1 5589 local      0 0.000    0   0 154.8206 577.3271</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   0.0.1 5589 local      0 1.001    0   0 154.8206 577.3271</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   0.0.1 5589 local      0 2.001    0   0 154.8206 577.3271</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   version  pid  name status time core cpu resident  virtual</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0.0.1 5628 local      0    0    0   0 152.2606 574.6442</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   0.0.1 5628 local      0    1    0   0 152.2606 574.6442</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   0.0.1 5628 local      0    2    0   0 152.2606 574.6442</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
