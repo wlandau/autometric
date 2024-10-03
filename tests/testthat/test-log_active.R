@@ -1,0 +1,11 @@
+test_that("log_active()", {
+  skip_if_not(log_support())
+  path <- tempfile()
+  on.exit(unlink(path))
+  expect_false(log_active())
+  log_start(seconds = 0.25, path = path)
+  expect_true(log_active())
+  log_stop()
+  Sys.sleep(1)
+  expect_false(log_active())
+})

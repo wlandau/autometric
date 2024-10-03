@@ -1,0 +1,10 @@
+#ifndef ERROR_H
+#define ERROR_H
+
+#define ERROR_BUFFER 10001
+#define ERROR_FILE 10002
+#define ERROR_READ 10003
+#define ERROR_SYSTEM 10004
+#define ERROR_TIME 10005
+
+#endif
