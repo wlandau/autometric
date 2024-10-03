@@ -1,0 +1,131 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# autometric <a href="https://wlandau.github.io/autometric/"><img src="man/figures/logo-readme.png" align="right" height="138" /></a>
+
+<!--
+[![CRAN](https://www.r-pkg.org/badges/version/autometric)](https://CRAN.R-project.org/package=autometric)
+-->
+
+[![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![check](https://github.com/wlandau/autometric/actions/workflows/check.yaml/badge.svg)](https://github.com/wlandau/autometric/actions?query=workflow%3Acheck)
+[![codecov](https://codecov.io/gh/wlandau/autometric/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/wlandau/autometric)
+[![lint](https://github.com/wlandau/autometric/actions/workflows/lint.yaml/badge.svg)](https://github.com/wlandau/autometric/actions?query=workflow%3Alint)
+[![pkgdown](https://github.com/wlandau/autometric/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/wlandau/autometric/actions?query=workflow%3Apkgdown)
+
+Intense parallel workloads can be difficult to monitor. Packages [`crew.cluster`](https://wlandau.github.io/crew.cluster/), [`clustermq`](https://mschubert.github.io/clustermq/), and [`future.batchtools`](https://future.batchtools.futureverse.org/) distribute hundreds of worker processes over multiple computers. If a worker process exhausts its available memory, it may terminate silently, leaving the underlying problem difficult to detect or troubleshoot. Using the `autometric` package, a worker can proactively monitor itself in a detached POSIX thread. The worker process itself runs normally, and the thread writes to a log every few seconds. If the worker terminates unexpectedly, `autometric` can read and visualize the log file to reveal potential resource-related reasons for the crash.
+
+## Requirements
+
+* A Linux, Mac OS, or Windows operating system.
+* POSIX threads. Modern tool chains seem to provide R with POSIX thread support, even on Windows.
+* Either POSIX timers or a Windows operating system.
+
+## Installation
+
+You can install the development version of `autometric` from [GitHub](https://github.com/) with:
+
+```{r, eval = FALSE}
+remotes::install_github("wlandau/autometric")
+```
+
+## Usage
+
+The `log_start()` function in `autometric` starts a non-blocking POSIX thread to write resource usage statistics to a log at periodic intervals. The following example uses the [`callr`](https://callr.r-lib.org/) R package to launch a resource-intensive background process on a Unix-like system. The `autometric` thread prints to standard output, and `callr` directs all its standard output to a temporary text file we define in advance.^[Logging to standard output is useful on clusters like SLURM where workers already redirect standard output to log files, or on the cloud where a service like [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) captures messages instead of directing them to a physical file.]
+
+```{r}
+log_file <- tempfile()
+
+process <- callr::r_bg(
+  func = function() {
+    print("Setting up the log.")
+    autometric::log_start(
+      path = "/dev/stdout",
+      pids = c(my_worker = Sys.getpid()),
+      seconds = 1
+    )
+    
+    print("Warming up.")
+    Sys.sleep(3)
+    
+    print("Defining a function that guzzles CPU power.")
+    is_prime <- function(n) {
+      if (n <= 1) return(FALSE)
+      for (i in seq(2, sqrt(n))) {
+        if (n %% i == 0) {
+          return(FALSE)
+        }
+      }
+      TRUE
+    }
+    
+    print("Allocating a large object.")
+    x <- rnorm(1e8)
+    
+    print("Guzzling CPU power.")
+    lapply(seq_len(1e6), is_prime)
+    
+    print("Allocating another large object.")
+    y <- rnorm(1e8)
+    
+    print("Guzzling more CPU.")
+    lapply(seq_len(1e6), is_prime)
+    
+    print("Allocating a third large object.")
+    z <- rnorm(1e8)
+    
+    print("Done.")
+  },
+  stdout = log_file
+)
+```
+
+```{r, include = FALSE}
+while(process$is_alive()) {
+  Sys.sleep(1)
+}
+```
+
+When we read in the log file, we see messages from both R and the `autometric` thread.
+
+```{r}
+writeLines(readLines(log_file))
+
+```
+
+`autometric` knows how to read its log entries even if the log file has other messages. See the documentation of `log_read()` to learn how to interpret the data and customize the measurement units.
+
+```{r}
+library(autometric)
+log_data <- log_read(log_file)
+
+log_data
+```
+
+`autometric` also supports simple visualizations plot performance metrics over time. To avoid depending on many other R packages, `autometric` only uses base plotting functionality. Feel free to create fancier visualizations directly with [`ggplot2`](https://ggplot2.tidyverse.org/).
+
+```{r}
+log_plot(log_data, metric = "cpu")
+```
+
+```{r}
+log_plot(log_data, metric = "resident")
+```
+
+## Attribution
+
+`autometric` heavily leverages fantastic work on the [`ps`](https://ps.r-lib.org/) R package by Jay Loden, Dave Daeschler, Giampaolo Rodola, Gábor Csárdi, and Posit Software, PBC. The source code of [`ps`](https://ps.r-lib.org/) was especially helpful for identifying appropriate system calls to retrieve resource usage statistics. Attribution is given in the NOTICE file and in the comments of the C files in `src/`. Please visit <https://github.com/r-lib/ps/blob/main/LICENSE.md> to view the license of [`ps`](https://ps.r-lib.org/). [`ps`](https://ps.r-lib.org/) in turn is based on [`psutil`](https://github.com/giampaolo/psutil), whose license is available at <https://github.com/giampaolo/psutil/blob/master/LICENSE>.
+
+## Code of Conduct
+
+Please note that the `autometric` project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
