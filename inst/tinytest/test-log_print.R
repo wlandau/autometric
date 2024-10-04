@@ -16,4 +16,3 @@ local({
   expect_error(log_print(error = TRUE))
   options(autometric_mock_no_support = old_option)
 })
-
