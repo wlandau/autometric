@@ -1,5 +1,3 @@
-stop("ran!")
-
 # Watch htop or task manager or activity monitor for CPU load during test.
 library(autometric)
 

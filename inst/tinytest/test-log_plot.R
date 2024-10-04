@@ -10,8 +10,8 @@ local({
     log_plot(log, pid = NULL, name = NULL)
     log_plot(log, pid = pid, name = NULL)
     log_plot(log, pid = NULL, name = "local")
-    tinytest::expect_error(log_plot(log, pid = pid, name = "local"))
-    tinytest::expect_true(TRUE)
+    expect_error(log_plot(log, pid = pid, name = "local"))
+    expect_true(TRUE)
     dev.off()
     unlink(temp, recursive = TRUE)
   }
