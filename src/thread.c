@@ -19,7 +19,7 @@ pthread_args_t* pthread_args_init(
     return NULL;
   }
   const char* path_ = CHAR(STRING_ELT(path, 0));
-  args->path = (char*) malloc(strlen(path_) * sizeof(char));
+  args->path = (char*) malloc((strlen(path_) + 1) * sizeof(char));
   if (args->path == NULL) {
     free(args);
     return NULL;
