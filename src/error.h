@@ -1,6 +1,7 @@
 #ifndef ERROR_H
 #define ERROR_H
 
+#define ERROR_ARITHMETIC 10000
 #define ERROR_BUFFER 10001
 #define ERROR_FILE 10002
 #define ERROR_READ 10003

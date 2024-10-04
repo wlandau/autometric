@@ -75,11 +75,14 @@ void metrics_system(metrics_t* metrics, const int pid) {
   if (
     metrics->status == 0 &&
       metrics->seconds_previous > 0.0 &&
-      metrics->seconds_process > 0.0
+      metrics->seconds_process > 0.0 &&
+      metrics->seconds_current > metrics->seconds_previous
   ) {
     metrics->percent_core = 100.0 *
       (seconds_process - metrics->seconds_process) /
       (metrics->seconds_current - metrics->seconds_previous);
+  } else {
+    metrics->status = ERROR_ARITHMETIC;
   }
   metrics->seconds_previous = metrics->seconds_current;
   metrics->seconds_process = seconds_process;

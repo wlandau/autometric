@@ -2,7 +2,7 @@ test_that("log_read() one file", {
   skip_if_not(log_support())
   path <- tempfile()
   on.exit(unlink(path))
-  log_print(seconds = 1e-9, path = path)
+  log_print(seconds = 0.5, path = path)
   out <- log_read(path)
   expect_equal(nrow(out), 1L)
   expect_equal(
@@ -28,7 +28,7 @@ test_that("log_read() many files", {
   dir.create(dir1)
   dir.create(dir2)
   dir.create(dir3)
-  log_print(seconds = 1e-9, path = file.path(dir1, "x"))
+  log_print(seconds = 0.5, path = file.path(dir1, "x"))
   file.copy(file.path(dir1, "x"), file.path(dir1, "y"))
   file.copy(file.path(dir1, "x"), file.path(dir2, "y"))
   file.copy(file.path(dir1, "x"), file.path(dir3, "z"))

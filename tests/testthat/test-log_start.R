@@ -2,11 +2,11 @@ test_that("log_start()", {
   skip_if_not(log_support())
   temp <- tempfile()
   on.exit(unlink(temp))
-  log_start(seconds = 0.1, pids = c(local = Sys.getpid()),  path = temp)
-  log_start(seconds = 0.1, pids = Sys.getpid(), path = temp) # idempotent
-  Sys.sleep(0.25)
+  log_start(seconds = 0.5, pids = c(local = Sys.getpid()),  path = temp)
+  log_start(seconds = 0.5, pids = Sys.getpid(), path = temp) # idempotent
+  Sys.sleep(2)
   log_stop()
-  Sys.sleep(1)
+  Sys.sleep(2)
   out <- readLines(temp)
   expect_gt(length(out), 1L)
   expect_true(all(nzchar(out)))
