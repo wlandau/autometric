@@ -115,6 +115,7 @@ void pthread_start(pthread_args_t* args) {
   pthread_mutex_lock(&run_mutex);
   if (run_flag) {
     pthread_mutex_unlock(&run_mutex);
+    pthread_args_free(args);
     return;
   }
   pthread_t thread;
