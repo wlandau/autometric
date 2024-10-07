@@ -1,7 +1,7 @@
 /*
  * Based on the {ps} R package:
  * https://github.com/r-lib/ps/blob/main/src/api-linux.c
- * See the NOTICE file at the top level of this package for license and
+ * See the LICENSE.note file at the top level of this package for license and
  * copyright information relating to this code.
  */
 

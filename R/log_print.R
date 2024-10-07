@@ -3,6 +3,7 @@
 #' @description Sample CPU load metrics and
 #'   print a single line to the log for each process in `pids`.
 #'   Used for debugging and testing only. Not for users.
+#' @return `NULL` (invisibly). Called for its side effects.
 #' @param path Character string, path to a file to log resource usage.
 #'   On Windows, the path must point to a physical file on disk.
 #'   On Unix-like systems, `path` can be `"/dev/stdout"` to print to
@@ -55,15 +56,25 @@ log_print <- function(
   stopifnot(is.numeric(seconds))
   stopifnot(!anyNA(seconds))
   stopifnot(seconds > 0)
-  stopifnot(is.character(path))
-  stopifnot(length(path) == 1L)
-  stopifnot(!anyNA(path))
-  stopifnot(nzchar(path))
   stopifnot(is.numeric(pids))
   stopifnot(all(is.finite(pids)))
   stopifnot(all(pids >= 0L))
   stopifnot(all(length(pids) > 0L))
+  stopifnot(is.character(path))
+  stopifnot(length(path) == 1L)
+  stopifnot(!anyNA(path))
+  stopifnot(nzchar(path))
   path <- as.character(path)
+  if (!file.exists(path)) {
+    dir <- dirname(path)
+    if (!file.exists(dir)) {
+      dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+    }
+    file.create(path, showWarnings = FALSE)
+  }
+  if (!file.exists(path)) {
+    stop("unable to create log file ", path) # nocov
+  }
   nanoseconds <- as.integer(1e9L * (seconds - floor(seconds)))
   seconds <- as.integer(floor(seconds))
   n_pids <- length(pids)

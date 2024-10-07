@@ -47,6 +47,9 @@ process IDs in the log entries.}
 \item{error}{\code{TRUE} to throw an error if the thread is not supported on
 the current platform. (See \code{\link[=log_support]{log_support()}}.)}
 }
+\value{
+\code{NULL} (invisibly). Called for its side effects.
+}
 \description{
 Sample CPU load metrics and
 print a single line to the log for each process in \code{pids}.

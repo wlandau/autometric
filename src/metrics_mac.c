@@ -1,7 +1,7 @@
 /*
  * Based on ps__get_status() from the {ps} R package:
  * https://github.com/r-lib/ps/blob/dccc347d11554c55724e6f540d5001ded7bf80c7/src/api-macos.c#L78-L152
- * See the NOTICE file at the top level of this package for license and
+ * See the LICENSE.note file at the top level of this package for license and
  * copyright information relating to this code.
  * The authors of {ps} credit these sources:
  * http://stackoverflow.com/questions/6788274/ios-mac-cpu-usage-for-thread and

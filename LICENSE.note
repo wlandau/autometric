@@ -1,6 +1,10 @@
-The autometric includes components from other open source R packages. The packages and authors are listed below.
+The autometric includes components from other open source R packages,
+specifically in files `src/metrics_linux.c`, `src/metrics_mac.c`, and `src/metrics_windows.c`.
+The packages and authors are listed below.
 
-* ps (https://github.com/r-lib/ps) by Jay Loden, Dave Daeschler, Giampaulo Rodola, Gabor Csardi, and Posit Software, PBC. (MIT). License text: https://github.com/r-lib/ps/blob/main/LICENSE.md and below:
+* ps (https://github.com/r-lib/ps) by Jay Loden, Dave Daeschler, Giampaulo Rodola, Gabor Csardi, and Posit Software, PBC.
+(MIT). https://github.com/r-lib/ps/blob/main/DESCRIPTION attributes copyright to Posit Software, PBC.
+License text: https://github.com/r-lib/ps/blob/main/LICENSE.md and below:
 
 # MIT License
 
@@ -24,7 +28,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-* psutil (https://github.com/giampaolo/psutil) by Jay Loden, Dave Daeschler, Giampaolo Rodola (BSD 3-clause license). License text: https://github.com/giampaolo/psutil/blob/master/LICENSE and below:
+* psutil (https://github.com/giampaolo/psutil) by Jay Loden, Dave Daeschler, Giampaolo Rodola (BSD 3-clause license).
+The autometric package does not direclty borrow from psutil, but ps borrows from psutil,
+so we attribute psutil from autometric as well. The text of the psutil license
+is at https://github.com/giampaolo/psutil/blob/master/LICENSE and below:
 
 BSD 3-Clause License
 

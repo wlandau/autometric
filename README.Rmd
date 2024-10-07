@@ -124,7 +124,7 @@ log_plot(log_data, metric = "resident")
 
 ## Attribution
 
-`autometric` heavily leverages fantastic work on the [`ps`](https://ps.r-lib.org/) R package by Jay Loden, Dave Daeschler, Giampaolo Rodola, Gábor Csárdi, and Posit Software, PBC. The source code of [`ps`](https://ps.r-lib.org/) was especially helpful for identifying appropriate system calls to retrieve resource usage statistics. Attribution is given in the NOTICE file and in the comments of the C files in `src/`. Please visit <https://github.com/r-lib/ps/blob/main/LICENSE.md> to view the license of [`ps`](https://ps.r-lib.org/). [`ps`](https://ps.r-lib.org/) in turn is based on [`psutil`](https://github.com/giampaolo/psutil), whose license is available at <https://github.com/giampaolo/psutil/blob/master/LICENSE>.
+`autometric` heavily leverages fantastic work on the [`ps`](https://ps.r-lib.org/) R package by Jay Loden, Dave Daeschler, Giampaolo Rodola, Gábor Csárdi, and Posit Software, PBC. The source code of [`ps`](https://ps.r-lib.org/) was especially helpful for identifying appropriate system calls to retrieve resource usage statistics. Attribution is given in the `Authors@R` field of the `DESCRIPTION` file, the `LICENSE.note` file at the top level of the package, and in the comments of the C files in `src/`. Please visit <https://github.com/r-lib/ps/blob/main/LICENSE.md> to view the license of [`ps`](https://ps.r-lib.org/). [`ps`](https://ps.r-lib.org/) in turn is based on [`psutil`](https://github.com/giampaolo/psutil), whose license is available at <https://github.com/giampaolo/psutil/blob/master/LICENSE>.
 
 ## Code of Conduct
 

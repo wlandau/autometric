@@ -1,15 +1,16 @@
 local({
   if (log_support()) {
     temp <- tempfile()
-    log_start(seconds = 0.5, pids = c(local = Sys.getpid()),  path = temp)
-    log_start(seconds = 0.5, pids = Sys.getpid(), path = temp) # idempotent
+    path <- file.path(temp, "x", "y", "z")
+    log_start(seconds = 0.5, pids = c(local = Sys.getpid()),  path = path)
+    log_start(seconds = 0.5, pids = Sys.getpid(), path = path) # idempotent
     Sys.sleep(2)
     log_stop()
     Sys.sleep(2)
-    out <- readLines(temp)
+    out <- readLines(path)
     expect_true(length(out) > 1L)
     expect_true(all(nzchar(out)))
-    unlink(temp)
+    unlink(temp, recursive = TRUE, force = TRUE)
   }
 })
 

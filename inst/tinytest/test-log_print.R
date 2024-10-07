@@ -1,12 +1,13 @@
 local({
   if (log_support()) {
     temp <- tempfile()
-    log_print(path = temp, pids = Sys.getpid())
-    log_print(path = temp, pids = c(local = Sys.getpid()))
-    out <- readLines(temp)
+    path <- file.path(temp, "x", "y", "z")
+    log_print(path = path, pids = Sys.getpid())
+    log_print(path = path, pids = c(local = Sys.getpid()))
+    out <- readLines(path)
     expect_equal(length(out), 2L)
     expect_true(all(nzchar(out)))
-    unlink(temp)
+    unlink(temp, recursive = TRUE, force = TRUE)
   }
 })
 

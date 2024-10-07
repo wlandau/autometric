@@ -1,6 +1,9 @@
-# autometric 0.0.4.9000 (development)
+# autometric 0.0.5
 
-
+* Document the return value of `log_print()`.
+* Make copyright attribution more obvious in the built package:
+    1. Move `NOTICE` to `LICENSE.note` so comments on the license and copyright are included in the built package.
+    2. Attribute the `ps` and `psutil` copyright holders in the `Authors@R` field of the `DESCRIPTION` file.
 
 # autometric 0.0.4
 
