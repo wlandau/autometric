@@ -1,3 +1,7 @@
+# autometric 0.0.5.9000 (development)
+
+
+
 # autometric 0.0.5
 
 * Check the validity of the file path in `log_print()` and `log_start()` (#1, @shikokuchuo).
