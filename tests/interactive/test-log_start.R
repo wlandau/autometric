@@ -29,10 +29,8 @@ local({
       invisible()
     }
   )
-
   message(Sys.getpid())
   message(process$get_pid())
-
   library(autometric)
   path <- tempfile()
   log_start(

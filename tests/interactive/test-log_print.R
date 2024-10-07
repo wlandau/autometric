@@ -26,10 +26,8 @@ local({
       invisible()
     }
   )
-
   message(Sys.getpid())
   message(process$get_pid())
-
   path <- tempfile()
   log_print(
     path = path,
