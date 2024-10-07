@@ -2,6 +2,18 @@
 library(autometric)
 
 local({
+  log_stop()
+  stopifnot(isFALSE(log_active()))
+  out <- FALSE
+  out <- tryCatch(
+    log_start(path = "/etc/test"),
+    error = function(condition) TRUE
+  )
+  stopifnot(isTRUE(out))
+  stopifnot(isFALSE(log_active()))
+})
+
+local({
   process <- callr::r_bg(
     function() {
       is_prime <- function(n) {

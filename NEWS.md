@@ -1,5 +1,6 @@
 # autometric 0.0.5
 
+* Check the validity of the file path in `log_print()` and `log_start()` (#1, @shikokuchuo).
 * Document the return value of `log_print()`.
 * Make copyright attribution more obvious in the built package:
     1. Move `NOTICE` to `LICENSE.note` so comments on the license and copyright are included in the built package.
