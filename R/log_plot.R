@@ -20,7 +20,7 @@
 #'   function `plot()`.
 #' @examples
 #'   path <- tempfile()
-#'   log_start(seconds = 0.5, path = path)
+#'   log_start(seconds = 0.25, path = path)
 #'   Sys.sleep(1)
 #'   log_stop()
 #'   Sys.sleep(2)
@@ -73,6 +73,9 @@ log_plot <- function(
   )
   if (is.null(args$main)) {
     args$main <- default_title
+  }
+  if (is.null(args$ylim)) {
+    args$ylim <- c(min(c(0, log[[metric]])), max(log[[metric]]))
   }
   do.call(what = plot, args = args)
   graphics::lines(x = log$time, y = log[[metric]])

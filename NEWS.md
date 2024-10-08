@@ -1,6 +1,6 @@
 # autometric 0.0.5.9000 (development)
 
-
+* Default `ylim` in `log_plot()`.
 
 # autometric 0.0.5
 
