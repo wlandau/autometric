@@ -77,10 +77,7 @@
 <div class="page-header"><h1 id="autometric-">autometric <a href="https://wlandau.github.io/autometric/" class="external-link"><img src="reference/figures/logo-readme.png" align="right" height="138"></a>
 <a class="anchor" aria-label="anchor" href="#autometric-"></a>
 </h1></div>
-<!--
-[![CRAN](https://www.r-pkg.org/badges/version/autometric)](https://CRAN.R-project.org/package=autometric)
--->
-<p><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="status"></a> <a href="https://github.com/wlandau/autometric/actions?query=workflow%3Acheck" class="external-link"><img src="https://github.com/wlandau/autometric/actions/workflows/check.yaml/badge.svg" alt="check"></a> <a href="https://app.codecov.io/gh/wlandau/autometric" class="external-link"><img src="https://codecov.io/gh/wlandau/autometric/branch/main/graph/badge.svg?token=3T5DlLwUVl" alt="codecov"></a> <a href="https://github.com/wlandau/autometric/actions?query=workflow%3Alint" class="external-link"><img src="https://github.com/wlandau/autometric/actions/workflows/lint.yaml/badge.svg" alt="lint"></a> <a href="https://github.com/wlandau/autometric/actions?query=workflow%3Apkgdown" class="external-link"><img src="https://github.com/wlandau/autometric/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></p>
+<p><a href="https://CRAN.R-project.org/package=autometric" class="external-link"><img src="https://www.r-pkg.org/badges/version/autometric" alt="CRAN"></a> <a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="status"></a> <a href="https://github.com/wlandau/autometric/actions?query=workflow%3Acheck" class="external-link"><img src="https://github.com/wlandau/autometric/actions/workflows/check.yaml/badge.svg" alt="check"></a> <a href="https://app.codecov.io/gh/wlandau/autometric" class="external-link"><img src="https://codecov.io/gh/wlandau/autometric/branch/main/graph/badge.svg?token=3T5DlLwUVl" alt="codecov"></a> <a href="https://github.com/wlandau/autometric/actions?query=workflow%3Alint" class="external-link"><img src="https://github.com/wlandau/autometric/actions/workflows/lint.yaml/badge.svg" alt="lint"></a> <a href="https://github.com/wlandau/autometric/actions?query=workflow%3Apkgdown" class="external-link"><img src="https://github.com/wlandau/autometric/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></p>
 <p>Intense parallel workloads can be difficult to monitor. Packages <a href="https://wlandau.github.io/crew.cluster/" class="external-link"><code>crew.cluster</code></a>, <a href="https://mschubert.github.io/clustermq/" class="external-link"><code>clustermq</code></a>, and <a href="https://future.batchtools.futureverse.org/" class="external-link"><code>future.batchtools</code></a> distribute hundreds of worker processes over multiple computers. If a worker process exhausts its available memory, it may terminate silently, leaving the underlying problem difficult to detect or troubleshoot. Using the <code>autometric</code> package, a worker can proactively monitor itself in a detached POSIX thread. The worker process itself runs normally, and the thread writes to a log every few seconds. If the worker terminates unexpectedly, <code>autometric</code> can read and visualize the log file to reveal potential resource-related reasons for the crash.</p>
 <div class="section level2">
 <h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
@@ -152,35 +149,36 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">log_file</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Setting up the log."</span></span>
 <span><span class="co">#&gt; [1] "Warming up."</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302986.989|0.900|0.090|77938688|420690477056|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302987.994|0.000|0.000|78004224|420699914240|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590201.166|1.000|0.100|76005376|420621271040|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590202.174|0.000|0.000|76021760|420621271040|__AUTOMETRIC__</span></span>
 <span><span class="co">#&gt; [1] "Defining a function that guzzles CPU power."</span></span>
 <span><span class="co">#&gt; [1] "Allocating a large object."</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302988.997|0.000|0.000|78053376|420708302848|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302990.002|95.800|9.580|385613824|421508333568|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302991.005|99.900|9.990|705708032|421508333568|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590203.177|0.000|0.000|76038144|420621271040|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590204.182|95.400|9.540|379813888|421421301760|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590205.187|100.000|10.000|693846016|421421301760|__AUTOMETRIC__</span></span>
 <span><span class="co">#&gt; [1] "Guzzling CPU power."</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302992.007|99.400|9.940|905494528|421533499392|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302993.012|100.000|10.000|915177472|421533499392|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302994.017|100.000|10.000|920846336|421533499392|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302995.022|98.800|9.880|920846336|421533499392|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302996.027|98.800|9.880|921862144|421533499392|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302997.033|99.700|9.970|925302784|421533499392|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302998.035|99.100|9.910|926695424|421541888000|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590206.192|96.300|9.630|894943232|421555519488|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590207.194|99.100|9.910|914997248|421563908096|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590208.199|99.400|9.940|915963904|421563908096|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590209.204|100.000|10.000|929775616|421563908096|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590210.210|99.200|9.920|937164800|421563908096|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590211.215|99.900|9.990|937164800|421563908096|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590212.220|100.000|10.000|937164800|421563908096|__AUTOMETRIC__</span></span>
 <span><span class="co">#&gt; [1] "Allocating another large object."</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728302999.038|99.700|9.970|1150222336|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303000.043|99.900|9.990|1470906368|422341902336|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590213.225|100.000|10.000|1118781440|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590214.226|93.800|9.380|1045135360|422363922432|__AUTOMETRIC__</span></span>
 <span><span class="co">#&gt; [1] "Guzzling more CPU."</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303001.048|100.000|10.000|1741717504|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303002.053|98.400|9.840|1741717504|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303003.058|100.000|10.000|1746960384|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303004.063|100.000|10.000|1746993152|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303005.068|100.000|10.000|1746993152|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303006.074|99.600|9.960|1746993152|422341902336|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303007.079|100.000|10.000|1746993152|422341902336|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590215.231|99.100|9.910|1246822400|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590216.236|100.000|10.000|1202110464|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590217.242|98.200|9.820|1202159616|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590218.247|99.700|9.970|1202159616|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590219.252|100.000|10.000|1202159616|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590220.257|99.900|9.990|1162248192|422363922432|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590221.262|98.700|9.870|1162248192|422363922432|__AUTOMETRIC__</span></span>
 <span><span class="co">#&gt; [1] "Allocating a third large object."</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303008.084|98.600|9.860|1929740288|423141916672|__AUTOMETRIC__</span></span>
-<span><span class="co">#&gt; __AUTOMETRIC__|0.0.4.9000|5212|my_worker|0|1728303009.087|100.000|10.000|1828651008|423141916672|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590222.268|100.000|10.000|1184382976|423163936768|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590223.271|99.400|9.940|1280753664|423163936768|__AUTOMETRIC__</span></span>
+<span><span class="co">#&gt; __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590224.276|100.000|10.000|1241595904|423163936768|__AUTOMETRIC__</span></span>
 <span><span class="co">#&gt; [1] "Done."</span></span></code></pre></div>
 <p><code>autometric</code> knows how to read its log entries even if the log file has other messages. See the documentation of <code><a href="reference/log_read.html">log_read()</a></code> to learn how to interpret the data and customize the measurement units.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -188,30 +186,31 @@
 <span><span class="va">log_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/log_read.html">log_read</a></span><span class="op">(</span><span class="va">log_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">log_data</span></span>
-<span><span class="co">#&gt;       version  pid      name status   time  core   cpu   resident  virtual</span></span>
-<span><span class="co">#&gt; 1  0.0.4.9000 5212 my_worker      0  0.000   0.9  0.09   77.93869 420690.5</span></span>
-<span><span class="co">#&gt; 2  0.0.4.9000 5212 my_worker      0  1.005   0.0  0.00   78.00422 420699.9</span></span>
-<span><span class="co">#&gt; 3  0.0.4.9000 5212 my_worker      0  2.008   0.0  0.00   78.05338 420708.3</span></span>
-<span><span class="co">#&gt; 4  0.0.4.9000 5212 my_worker      0  3.013  95.8  9.58  385.61382 421508.3</span></span>
-<span><span class="co">#&gt; 5  0.0.4.9000 5212 my_worker      0  4.016  99.9  9.99  705.70803 421508.3</span></span>
-<span><span class="co">#&gt; 6  0.0.4.9000 5212 my_worker      0  5.018  99.4  9.94  905.49453 421533.5</span></span>
-<span><span class="co">#&gt; 7  0.0.4.9000 5212 my_worker      0  6.023 100.0 10.00  915.17747 421533.5</span></span>
-<span><span class="co">#&gt; 8  0.0.4.9000 5212 my_worker      0  7.028 100.0 10.00  920.84634 421533.5</span></span>
-<span><span class="co">#&gt; 9  0.0.4.9000 5212 my_worker      0  8.033  98.8  9.88  920.84634 421533.5</span></span>
-<span><span class="co">#&gt; 10 0.0.4.9000 5212 my_worker      0  9.038  98.8  9.88  921.86214 421533.5</span></span>
-<span><span class="co">#&gt; 11 0.0.4.9000 5212 my_worker      0 10.044  99.7  9.97  925.30278 421533.5</span></span>
-<span><span class="co">#&gt; 12 0.0.4.9000 5212 my_worker      0 11.046  99.1  9.91  926.69542 421541.9</span></span>
-<span><span class="co">#&gt; 13 0.0.4.9000 5212 my_worker      0 12.049  99.7  9.97 1150.22234 422341.9</span></span>
-<span><span class="co">#&gt; 14 0.0.4.9000 5212 my_worker      0 13.054  99.9  9.99 1470.90637 422341.9</span></span>
-<span><span class="co">#&gt; 15 0.0.4.9000 5212 my_worker      0 14.059 100.0 10.00 1741.71750 422341.9</span></span>
-<span><span class="co">#&gt; 16 0.0.4.9000 5212 my_worker      0 15.064  98.4  9.84 1741.71750 422341.9</span></span>
-<span><span class="co">#&gt; 17 0.0.4.9000 5212 my_worker      0 16.069 100.0 10.00 1746.96038 422341.9</span></span>
-<span><span class="co">#&gt; 18 0.0.4.9000 5212 my_worker      0 17.074 100.0 10.00 1746.99315 422341.9</span></span>
-<span><span class="co">#&gt; 19 0.0.4.9000 5212 my_worker      0 18.079 100.0 10.00 1746.99315 422341.9</span></span>
-<span><span class="co">#&gt; 20 0.0.4.9000 5212 my_worker      0 19.085  99.6  9.96 1746.99315 422341.9</span></span>
-<span><span class="co">#&gt; 21 0.0.4.9000 5212 my_worker      0 20.090 100.0 10.00 1746.99315 422341.9</span></span>
-<span><span class="co">#&gt; 22 0.0.4.9000 5212 my_worker      0 21.095  98.6  9.86 1929.74029 423141.9</span></span>
-<span><span class="co">#&gt; 23 0.0.4.9000 5212 my_worker      0 22.098 100.0 10.00 1828.65101 423141.9</span></span></code></pre></div>
+<span><span class="co">#&gt;       version   pid      name status   time  core   cpu   resident  virtual</span></span>
+<span><span class="co">#&gt; 1  0.0.5.9000 20624 my_worker      0  0.000   1.0  0.10   76.00538 420621.3</span></span>
+<span><span class="co">#&gt; 2  0.0.5.9000 20624 my_worker      0  1.008   0.0  0.00   76.02176 420621.3</span></span>
+<span><span class="co">#&gt; 3  0.0.5.9000 20624 my_worker      0  2.011   0.0  0.00   76.03814 420621.3</span></span>
+<span><span class="co">#&gt; 4  0.0.5.9000 20624 my_worker      0  3.016  95.4  9.54  379.81389 421421.3</span></span>
+<span><span class="co">#&gt; 5  0.0.5.9000 20624 my_worker      0  4.021 100.0 10.00  693.84602 421421.3</span></span>
+<span><span class="co">#&gt; 6  0.0.5.9000 20624 my_worker      0  5.026  96.3  9.63  894.94323 421555.5</span></span>
+<span><span class="co">#&gt; 7  0.0.5.9000 20624 my_worker      0  6.028  99.1  9.91  914.99725 421563.9</span></span>
+<span><span class="co">#&gt; 8  0.0.5.9000 20624 my_worker      0  7.033  99.4  9.94  915.96390 421563.9</span></span>
+<span><span class="co">#&gt; 9  0.0.5.9000 20624 my_worker      0  8.038 100.0 10.00  929.77562 421563.9</span></span>
+<span><span class="co">#&gt; 10 0.0.5.9000 20624 my_worker      0  9.044  99.2  9.92  937.16480 421563.9</span></span>
+<span><span class="co">#&gt; 11 0.0.5.9000 20624 my_worker      0 10.049  99.9  9.99  937.16480 421563.9</span></span>
+<span><span class="co">#&gt; 12 0.0.5.9000 20624 my_worker      0 11.054 100.0 10.00  937.16480 421563.9</span></span>
+<span><span class="co">#&gt; 13 0.0.5.9000 20624 my_worker      0 12.059 100.0 10.00 1118.78144 422363.9</span></span>
+<span><span class="co">#&gt; 14 0.0.5.9000 20624 my_worker      0 13.060  93.8  9.38 1045.13536 422363.9</span></span>
+<span><span class="co">#&gt; 15 0.0.5.9000 20624 my_worker      0 14.065  99.1  9.91 1246.82240 422363.9</span></span>
+<span><span class="co">#&gt; 16 0.0.5.9000 20624 my_worker      0 15.070 100.0 10.00 1202.11046 422363.9</span></span>
+<span><span class="co">#&gt; 17 0.0.5.9000 20624 my_worker      0 16.076  98.2  9.82 1202.15962 422363.9</span></span>
+<span><span class="co">#&gt; 18 0.0.5.9000 20624 my_worker      0 17.081  99.7  9.97 1202.15962 422363.9</span></span>
+<span><span class="co">#&gt; 19 0.0.5.9000 20624 my_worker      0 18.086 100.0 10.00 1202.15962 422363.9</span></span>
+<span><span class="co">#&gt; 20 0.0.5.9000 20624 my_worker      0 19.091  99.9  9.99 1162.24819 422363.9</span></span>
+<span><span class="co">#&gt; 21 0.0.5.9000 20624 my_worker      0 20.096  98.7  9.87 1162.24819 422363.9</span></span>
+<span><span class="co">#&gt; 22 0.0.5.9000 20624 my_worker      0 21.102 100.0 10.00 1184.38298 423163.9</span></span>
+<span><span class="co">#&gt; 23 0.0.5.9000 20624 my_worker      0 22.105  99.4  9.94 1280.75366 423163.9</span></span>
+<span><span class="co">#&gt; 24 0.0.5.9000 20624 my_worker      0 23.110 100.0 10.00 1241.59590 423163.9</span></span></code></pre></div>
 <p><code>autometric</code> also supports simple visualizations plot performance metrics over time. To avoid depending on many other R packages, <code>autometric</code> only uses base plotting functionality. Feel free to create fancier visualizations directly with <a href="https://ggplot2.tidyverse.org/" class="external-link"><code>ggplot2</code></a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/log_plot.html">log_plot</a></span><span class="op">(</span><span class="va">log_data</span>, metric <span class="op">=</span> <span class="st">"cpu"</span><span class="op">)</span></span></code></pre></div>
@@ -244,6 +243,7 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=autometric" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/wlandau/autometric/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/wlandau/autometric/issues" class="external-link">Report a bug</a></li>
 </ul>
