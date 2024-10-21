@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.DS_Store$
 ^\.github$
+^\.lintr$
 ^\.Rproj\.user$
 ^docs$
 ^NOTICE$

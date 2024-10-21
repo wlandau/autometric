@@ -87,8 +87,8 @@ void pthread_phase_reset(void) {
 
 void pthread_phase_set(const char* phase) {
   pthread_mutex_lock(&run_mutex);
-  strncpy(run_phase, phase, sizeof(run_phase));
-  run_phase[sizeof(run_phase) - 1] = '\0';
+  strncpy(run_phase, phase, PHASE_N);
+  run_phase[PHASE_N - 1] = '\0';
   pthread_mutex_unlock(&run_mutex);
 }
 
