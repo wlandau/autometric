@@ -10,7 +10,7 @@ local({
   log_start(path = path, seconds = 0.5)
   temp <- log_active()
   Sys.sleep(2)
-  log_phase("different phase")
+  log_phase_set("different phase")
   Sys.sleep(2)
   log_stop()
   temp <- log_active()
