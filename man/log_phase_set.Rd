@@ -19,9 +19,13 @@ because it is the delimiter of fields in the log output.}
 Set the current log phase.
 }
 \examples{
+  path <- tempfile()
   log_phase_get()
+  log_print(path = path)
   log_phase_set("different")
   log_phase_get()
+  log_print(path = path)
   log_phase_reset()
   log_phase_get()
+  log_read(path)
 }
