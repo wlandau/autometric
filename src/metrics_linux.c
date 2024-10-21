@@ -12,19 +12,21 @@
 #include <sys/sysinfo.h>
 
 void metrics_system(metrics_t* metrics, const int pid) {
-  char path[512];
-  int size = snprintf(path, sizeof(path), "/proc/%d/stat", pid);
-  if (size < 0 || size >= sizeof(path)) {
+  n_path = 512;
+  n_buffer = 2048;
+  char path[n_path];
+  int size = snprintf(path, n_path, "/proc/%d/stat", pid);
+  if (size < 0 || size >= n_path) {
     metrics->status = ERROR_BUFFER;
     return;
   }
-  char buffer[2048];
+  char buffer[n_buffer];
   FILE *file = fopen(path, "r");
   if (file == NULL) {
     metrics->status = ERROR_FILE;
     return;
   }
-  if (fgets(buffer, sizeof(buffer), file) == NULL) {
+  if (fgets(buffer, n_buffer, file) == NULL) {
     metrics->status = ERROR_BUFFER;
     fclose(file);
     return;
