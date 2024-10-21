@@ -36,7 +36,7 @@ in a single log file.
 }
 \examples{
   path <- tempfile()
-  log_start(seconds = 0.5, path = path)
+  log_start(seconds = 0.25, path = path)
   Sys.sleep(1)
   log_stop()
   Sys.sleep(2)

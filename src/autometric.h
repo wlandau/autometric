@@ -6,6 +6,7 @@
 
 SEXP log_active(void);
 SEXP log_phase_get(void);
+SEXP log_phase_reset(void);
 SEXP log_phase_set(SEXP phase);
 SEXP log_print(
   SEXP path,

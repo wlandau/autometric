@@ -67,6 +67,7 @@ log_start <- function(
   } else {
     names <- names(pids)
   }
+  stopifnot(!any(grepl("|", names, fixed = TRUE)))
   pids <- as.integer(pids)
   .Call(
     r_log_start,

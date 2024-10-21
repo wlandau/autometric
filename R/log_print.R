@@ -32,7 +32,8 @@
 #'   This is due to security restrictions around certain system calls, c.f.
 #'   <https://os-tres.net/blog/2010/02/17/mac-os-x-and-task-for-pid-mach-call/>. # nolint
 #'   If the `pids` vector is named, then the names will show alongside the
-#'   process IDs in the log entries.
+#'   process IDs in the log entries. Names cannot include the pipe character
+#'   `"|"` because it is the delimiter of fields in the log output.
 #' @param error `TRUE` to throw an error if the thread is not supported on
 #'   the current platform. (See [log_support()].)
 #' @examples
@@ -83,6 +84,7 @@ log_print <- function(
   } else {
     names <- names(pids)
   }
+  stopifnot(!any(grepl("|", names, fixed = TRUE)))
   pids <- as.integer(pids)
   .Call(
     r_log_print,

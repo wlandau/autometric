@@ -44,7 +44,8 @@ process can be monitored.
 This is due to security restrictions around certain system calls, c.f.
 \url{https://os-tres.net/blog/2010/02/17/mac-os-x-and-task-for-pid-mach-call/}. # nolint
 If the \code{pids} vector is named, then the names will show alongside the
-process IDs in the log entries.}
+process IDs in the log entries. Names cannot include the pipe character
+\code{"|"} because it is the delimiter of fields in the log output.}
 
 \item{error}{\code{TRUE} to throw an error if the thread is not supported on
 the current platform. (See \code{\link[=log_support]{log_support()}}.)}

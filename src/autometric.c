@@ -10,11 +10,16 @@ SEXP log_active(void) {
 }
 
 SEXP log_phase_get(void) {
-  char phase[N_PHASE];
+  char phase[PHASE_N];
   pthread_phase_get(phase);
   SEXP out = PROTECT(mkString(phase));
   UNPROTECT(1);
   return out;
+}
+
+SEXP log_phase_reset(void) {
+  pthread_phase_reset();
+  return R_NilValue;
 }
 
 SEXP log_phase_set(SEXP phase) {
@@ -36,7 +41,7 @@ SEXP log_print(
   const int* pids_ = INTEGER(pids);
   const int n_pids_ = INTEGER(n_pids)[0];
   const char** names_ = (const char**) malloc(n_pids_ * sizeof(char*));
-  char phase[N_PHASE];
+  char phase[PHASE_N];
   if (names_ == NULL) {
     return R_NilValue;
   }

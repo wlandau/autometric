@@ -5,7 +5,7 @@
 
 pthread_mutex_t run_mutex = PTHREAD_MUTEX_INITIALIZER;
 int run_flag = 0;
-char run_phase[N_PHASE] = "__DEFAULT__";
+char run_phase[PHASE_N] = PHASE_DEFAULT;
 
 pthread_args_t* pthread_args_init(
   SEXP path,
@@ -79,6 +79,12 @@ void pthread_phase_get(char* phase) {
   pthread_mutex_unlock(&run_mutex);
 }
 
+void pthread_phase_reset(void) {
+  pthread_mutex_lock(&run_mutex);
+  strcpy(run_phase, PHASE_DEFAULT);
+  pthread_mutex_unlock(&run_mutex);
+}
+
 void pthread_phase_set(const char* phase) {
   pthread_mutex_lock(&run_mutex);
   strncpy(run_phase, phase, sizeof(run_phase));
@@ -95,7 +101,7 @@ int pthread_run_flag_get(void) {
 }
 
 void* pthread_run(void* arg) {
-  char phase[N_PHASE];
+  char phase[PHASE_N];
   pthread_args_t* args = (pthread_args_t*) arg;
   time_spec_t sleep_spec = time_spec_init(args->seconds, args->nanoseconds);
   metrics_t* metrics_array = metrics_array_init(args->n_pids);
