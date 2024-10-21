@@ -3,8 +3,9 @@
 #if SUPPORT
 #include "thread.h"
 
-int run_flag = 0;
 pthread_mutex_t run_mutex = PTHREAD_MUTEX_INITIALIZER;
+int run_flag = 0;
+char run_phase[N_PHASE] = "__DEFAULT__";
 
 pthread_args_t* pthread_args_init(
   SEXP path,
@@ -72,6 +73,19 @@ void pthread_args_free(pthread_args_t* args) {
   free(args);
 }
 
+void pthread_phase_get(char* phase) {
+  pthread_mutex_lock(&run_mutex);
+  strcpy(phase, run_phase);
+  pthread_mutex_unlock(&run_mutex);
+}
+
+void pthread_phase_set(const char* phase) {
+  pthread_mutex_lock(&run_mutex);
+  strncpy(run_phase, phase, sizeof(run_phase));
+  run_phase[sizeof(run_phase) - 1] = '\0';
+  pthread_mutex_unlock(&run_mutex);
+}
+
 int pthread_run_flag_get(void) {
   int out;
   pthread_mutex_lock(&run_mutex);
@@ -81,6 +95,7 @@ int pthread_run_flag_get(void) {
 }
 
 void* pthread_run(void* arg) {
+  char phase[N_PHASE];
   pthread_args_t* args = (pthread_args_t*) arg;
   time_spec_t sleep_spec = time_spec_init(args->seconds, args->nanoseconds);
   metrics_t* metrics_array = metrics_array_init(args->n_pids);
@@ -96,13 +111,15 @@ void* pthread_run(void* arg) {
     if (!pthread_run_flag_get()) {
       break;
     }
+    pthread_phase_get(phase);
     for (int i = 0; i < args->n_pids; ++i) {
       metrics_iteration(metrics_array + i, args->path, args->pids[i]);
       metrics_print(
         metrics_array + i,
         args->path,
         args->pids[i],
-        args->names[i]
+        args->names[i],
+        phase
       );
     }
   }

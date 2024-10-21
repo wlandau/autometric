@@ -22,7 +22,8 @@ void metrics_print(
   const metrics_t* metrics,
   const char* path,
   const int pid,
-  const char* name
+  const char* name,
+  const char* phase
 ) {
   FILE* file = fopen(path, "a");
   if (file == NULL) {
@@ -30,7 +31,7 @@ void metrics_print(
   }
   fprintf(
     file,
-    "__AUTOMETRIC__|%s|%d|%s|%d|%.3f|%.3f|%.3f|%lu|%lu|__AUTOMETRIC__\n",
+    "__AUTOMETRIC__|%s|%d|%s|%d|%.3f|%.3f|%.3f|%lu|%lu|%s|__AUTOMETRIC__\n",
     VERSION,
     pid,
     name,
@@ -39,7 +40,8 @@ void metrics_print(
     metrics->percent_core,
     metrics->percent_cpu,
     metrics->bytes_resident,
-    metrics->bytes_virtual
+    metrics->bytes_virtual,
+    phase
   );
   fclose(file);
 }

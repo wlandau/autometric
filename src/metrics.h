@@ -25,7 +25,8 @@ void metrics_print(
   const metrics_t* metrics,
   const char* path,
   const int pid,
-  const char* name
+  const char* name,
+  const char* phase
 );
 void metrics_reset_cumulative(metrics_t* metrics);
 void metrics_reset_memoryless(metrics_t* metrics);

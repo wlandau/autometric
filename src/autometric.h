@@ -5,6 +5,8 @@
 #include <Rinternals.h>
 
 SEXP log_active(void);
+SEXP log_phase_get(void);
+SEXP log_phase_set(SEXP phase);
 SEXP log_print(
   SEXP path,
   SEXP seconds,
