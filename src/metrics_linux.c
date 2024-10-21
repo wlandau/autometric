@@ -12,8 +12,8 @@
 #include <sys/sysinfo.h>
 
 void metrics_system(metrics_t* metrics, const int pid) {
-  n_path = 512;
-  n_buffer = 2048;
+  int n_path = 512;
+  int n_buffer = 2048;
   char path[n_path];
   int size = snprintf(path, n_path, "/proc/%d/stat", pid);
   if (size < 0 || size >= n_path) {
