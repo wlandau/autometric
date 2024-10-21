@@ -38,22 +38,25 @@ remotes::install_github("wlandau/autometric")
 
 ## Usage
 
-The `log_start()` function in `autometric` starts a non-blocking POSIX thread to write resource usage statistics to a log at periodic intervals. The following example uses the [`callr`](https://callr.r-lib.org/) R package to launch a resource-intensive background process on a Unix-like system. The `autometric` thread prints to standard output, and `callr` directs all its standard output to a temporary text file we define in advance.^[Logging to standard output is useful on clusters like SLURM where workers already redirect standard output to log files, or on the cloud where a service like [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) captures messages instead of directing them to a physical file.]
+The `log_start()` function in `autometric` starts a non-blocking POSIX thread to write resource usage statistics to a log at periodic intervals. The following example uses the [`callr`](https://callr.r-lib.org/) R package to launch a resource-intensive background process on a Unix-like system. The `autometric` thread prints to standard output, and `callr` directs all its standard output to a temporary text file we define in advance.^[Logging to standard output is useful on clusters like SLURM where workers already redirect standard output to log files, or on the cloud where a service like [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) captures messages instead of directing them to a physical file.] Custom calls to `log_phase_set()` annotate the log data^[See also `log_phase_get()` and `log_phase_reset()`]. 
 
 ```{r}
 log_file <- tempfile()
 
 process <- callr::r_bg(
   func = function() {
-    print("Setting up the log.")
-    autometric::log_start(
+    library(autometric)
+    log_phase_set("setup")
+    log_start(
       path = "/dev/stdout",
       pids = c(my_worker = Sys.getpid()),
       seconds = 1
     )
     
-    print("Warming up.")
+    log_phase_set("warmup")
     Sys.sleep(3)
+    
+    print("You can mix printed messages with regular log data.")
     
     print("Defining a function that guzzles CPU power.")
     is_prime <- function(n) {
@@ -66,22 +69,22 @@ process <- callr::r_bg(
       TRUE
     }
     
-    print("Allocating a large object.")
+    log_phase_set("large object")
     x <- rnorm(1e8)
     
-    print("Guzzling CPU power.")
+    log_phase_set("heavy cpu")
     lapply(seq_len(1e6), is_prime)
     
-    print("Allocating another large object.")
+    log_phase_set("another object")
     y <- rnorm(1e8)
     
-    print("Guzzling more CPU.")
+    log_phase_set("more cpu")
     lapply(seq_len(1e6), is_prime)
     
-    print("Allocating a third large object.")
+    log_phase_set("third object")
     z <- rnorm(1e8)
     
-    print("Done.")
+    log_phase_set("done")
   },
   stdout = log_file
 )
@@ -111,12 +114,12 @@ log_data
 
 `autometric` also supports simple visualizations plot performance metrics over time. To avoid depending on many other R packages, `autometric` only uses base plotting functionality. Feel free to create fancier visualizations directly with [`ggplot2`](https://ggplot2.tidyverse.org/).
 
-```{r}
-log_plot(log_data, metric = "cpu")
+```{r resident}
+log_plot(log_data, metric = "resident")
 ```
 
-```{r}
-log_plot(log_data, metric = "resident")
+```{r cpu}
+log_plot(log_data, phase = "more cpu", metric = "cpu")
 ```
 
 ## Attribution

@@ -46,21 +46,25 @@ intervals. The following example uses the
 resource-intensive background process on a Unix-like system. The
 `autometric` thread prints to standard output, and `callr` directs all
 its standard output to a temporary text file we define in advance.[^1]
+Custom calls to `log_phase_set()` annotate the log data[^2].
 
 ``` r
 log_file <- tempfile()
 
 process <- callr::r_bg(
   func = function() {
-    print("Setting up the log.")
-    autometric::log_start(
+    library(autometric)
+    log_phase_set("setup")
+    log_start(
       path = "/dev/stdout",
       pids = c(my_worker = Sys.getpid()),
       seconds = 1
     )
     
-    print("Warming up.")
+    log_phase_set("warmup")
     Sys.sleep(3)
+    
+    print("You can mix printed messages with regular log data.")
     
     print("Defining a function that guzzles CPU power.")
     is_prime <- function(n) {
@@ -73,22 +77,22 @@ process <- callr::r_bg(
       TRUE
     }
     
-    print("Allocating a large object.")
+    log_phase_set("large object")
     x <- rnorm(1e8)
     
-    print("Guzzling CPU power.")
+    log_phase_set("heavy cpu")
     lapply(seq_len(1e6), is_prime)
     
-    print("Allocating another large object.")
+    log_phase_set("another object")
     y <- rnorm(1e8)
     
-    print("Guzzling more CPU.")
+    log_phase_set("more cpu")
     lapply(seq_len(1e6), is_prime)
     
-    print("Allocating a third large object.")
+    log_phase_set("third object")
     z <- rnorm(1e8)
     
-    print("Done.")
+    log_phase_set("done")
   },
   stdout = log_file
 )
@@ -99,39 +103,31 @@ When we read in the log file, we see messages from both R and the
 
 ``` r
 writeLines(readLines(log_file))
-#> [1] "Setting up the log."
-#> [1] "Warming up."
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590201.166|1.000|0.100|76005376|420621271040|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590202.174|0.000|0.000|76021760|420621271040|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522150.260|1.000|0.100|77496320|420432527360|warmup|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522151.265|0.000|0.000|77496320|420432527360|warmup|__AUTOMETRIC__
+#> [1] "You can mix printed messages with regular log data."
 #> [1] "Defining a function that guzzles CPU power."
-#> [1] "Allocating a large object."
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590203.177|0.000|0.000|76038144|420621271040|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590204.182|95.400|9.540|379813888|421421301760|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590205.187|100.000|10.000|693846016|421421301760|__AUTOMETRIC__
-#> [1] "Guzzling CPU power."
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590206.192|96.300|9.630|894943232|421555519488|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590207.194|99.100|9.910|914997248|421563908096|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590208.199|99.400|9.940|915963904|421563908096|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590209.204|100.000|10.000|929775616|421563908096|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590210.210|99.200|9.920|937164800|421563908096|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590211.215|99.900|9.990|937164800|421563908096|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590212.220|100.000|10.000|937164800|421563908096|__AUTOMETRIC__
-#> [1] "Allocating another large object."
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590213.225|100.000|10.000|1118781440|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590214.226|93.800|9.380|1045135360|422363922432|__AUTOMETRIC__
-#> [1] "Guzzling more CPU."
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590215.231|99.100|9.910|1246822400|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590216.236|100.000|10.000|1202110464|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590217.242|98.200|9.820|1202159616|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590218.247|99.700|9.970|1202159616|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590219.252|100.000|10.000|1202159616|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590220.257|99.900|9.990|1162248192|422363922432|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590221.262|98.700|9.870|1162248192|422363922432|__AUTOMETRIC__
-#> [1] "Allocating a third large object."
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590222.268|100.000|10.000|1184382976|423163936768|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590223.271|99.400|9.940|1280753664|423163936768|__AUTOMETRIC__
-#> __AUTOMETRIC__|0.0.5.9000|20624|my_worker|0|1728590224.276|100.000|10.000|1241595904|423163936768|__AUTOMETRIC__
-#> [1] "Done."
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522152.267|0.000|0.000|77676544|420441964544|large object|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522153.273|98.400|9.840|387760128|421250383872|large object|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522154.278|100.000|10.000|709951488|421250383872|large object|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522155.283|100.000|10.000|901480448|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522156.288|99.000|9.900|909869056|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522157.293|100.000|10.000|914243584|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522158.299|99.400|9.940|921550848|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522159.304|100.000|10.000|921550848|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522160.309|98.800|9.880|925564928|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522161.310|100.000|10.000|925597696|421267161088|heavy cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522162.315|100.000|10.000|1194868736|422067175424|another object|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522163.320|100.000|10.000|1520173056|422067175424|another object|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522164.325|99.200|9.920|1733591040|422067175424|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522165.326|99.500|9.950|1736572928|422067175424|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522166.331|98.900|9.890|1736572928|422067175424|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522167.337|99.100|9.910|1736589312|422067175424|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522168.342|100.000|10.000|1737736192|422075564032|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522169.345|99.000|9.900|1744994304|422075564032|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522170.350|98.800|9.880|1744994304|422075564032|more cpu|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522171.355|99.600|9.960|1982660608|422875578368|third object|__AUTOMETRIC__
+#> __AUTOMETRIC__|0.0.5.9001|9967|my_worker|0|1729522172.360|98.300|9.830|2297184256|422875578368|third object|__AUTOMETRIC__
 ```
 
 `autometric` knows how to read its log entries even if the log file has
@@ -143,31 +139,54 @@ library(autometric)
 log_data <- log_read(log_file)
 
 log_data
-#>       version   pid      name status   time  core   cpu   resident  virtual
-#> 1  0.0.5.9000 20624 my_worker      0  0.000   1.0  0.10   76.00538 420621.3
-#> 2  0.0.5.9000 20624 my_worker      0  1.008   0.0  0.00   76.02176 420621.3
-#> 3  0.0.5.9000 20624 my_worker      0  2.011   0.0  0.00   76.03814 420621.3
-#> 4  0.0.5.9000 20624 my_worker      0  3.016  95.4  9.54  379.81389 421421.3
-#> 5  0.0.5.9000 20624 my_worker      0  4.021 100.0 10.00  693.84602 421421.3
-#> 6  0.0.5.9000 20624 my_worker      0  5.026  96.3  9.63  894.94323 421555.5
-#> 7  0.0.5.9000 20624 my_worker      0  6.028  99.1  9.91  914.99725 421563.9
-#> 8  0.0.5.9000 20624 my_worker      0  7.033  99.4  9.94  915.96390 421563.9
-#> 9  0.0.5.9000 20624 my_worker      0  8.038 100.0 10.00  929.77562 421563.9
-#> 10 0.0.5.9000 20624 my_worker      0  9.044  99.2  9.92  937.16480 421563.9
-#> 11 0.0.5.9000 20624 my_worker      0 10.049  99.9  9.99  937.16480 421563.9
-#> 12 0.0.5.9000 20624 my_worker      0 11.054 100.0 10.00  937.16480 421563.9
-#> 13 0.0.5.9000 20624 my_worker      0 12.059 100.0 10.00 1118.78144 422363.9
-#> 14 0.0.5.9000 20624 my_worker      0 13.060  93.8  9.38 1045.13536 422363.9
-#> 15 0.0.5.9000 20624 my_worker      0 14.065  99.1  9.91 1246.82240 422363.9
-#> 16 0.0.5.9000 20624 my_worker      0 15.070 100.0 10.00 1202.11046 422363.9
-#> 17 0.0.5.9000 20624 my_worker      0 16.076  98.2  9.82 1202.15962 422363.9
-#> 18 0.0.5.9000 20624 my_worker      0 17.081  99.7  9.97 1202.15962 422363.9
-#> 19 0.0.5.9000 20624 my_worker      0 18.086 100.0 10.00 1202.15962 422363.9
-#> 20 0.0.5.9000 20624 my_worker      0 19.091  99.9  9.99 1162.24819 422363.9
-#> 21 0.0.5.9000 20624 my_worker      0 20.096  98.7  9.87 1162.24819 422363.9
-#> 22 0.0.5.9000 20624 my_worker      0 21.102 100.0 10.00 1184.38298 423163.9
-#> 23 0.0.5.9000 20624 my_worker      0 22.105  99.4  9.94 1280.75366 423163.9
-#> 24 0.0.5.9000 20624 my_worker      0 23.110 100.0 10.00 1241.59590 423163.9
+#>       version          phase  pid      name status   time  core   cpu
+#> 1  0.0.5.9001         warmup 9967 my_worker      0  0.000   1.0  0.10
+#> 2  0.0.5.9001         warmup 9967 my_worker      0  1.005   0.0  0.00
+#> 3  0.0.5.9001   large object 9967 my_worker      0  2.007   0.0  0.00
+#> 4  0.0.5.9001   large object 9967 my_worker      0  3.013  98.4  9.84
+#> 5  0.0.5.9001   large object 9967 my_worker      0  4.018 100.0 10.00
+#> 6  0.0.5.9001      heavy cpu 9967 my_worker      0  5.023 100.0 10.00
+#> 7  0.0.5.9001      heavy cpu 9967 my_worker      0  6.028  99.0  9.90
+#> 8  0.0.5.9001      heavy cpu 9967 my_worker      0  7.033 100.0 10.00
+#> 9  0.0.5.9001      heavy cpu 9967 my_worker      0  8.039  99.4  9.94
+#> 10 0.0.5.9001      heavy cpu 9967 my_worker      0  9.044 100.0 10.00
+#> 11 0.0.5.9001      heavy cpu 9967 my_worker      0 10.049  98.8  9.88
+#> 12 0.0.5.9001      heavy cpu 9967 my_worker      0 11.050 100.0 10.00
+#> 13 0.0.5.9001 another object 9967 my_worker      0 12.055 100.0 10.00
+#> 14 0.0.5.9001 another object 9967 my_worker      0 13.060 100.0 10.00
+#> 15 0.0.5.9001       more cpu 9967 my_worker      0 14.065  99.2  9.92
+#> 16 0.0.5.9001       more cpu 9967 my_worker      0 15.066  99.5  9.95
+#> 17 0.0.5.9001       more cpu 9967 my_worker      0 16.071  98.9  9.89
+#> 18 0.0.5.9001       more cpu 9967 my_worker      0 17.077  99.1  9.91
+#> 19 0.0.5.9001       more cpu 9967 my_worker      0 18.082 100.0 10.00
+#> 20 0.0.5.9001       more cpu 9967 my_worker      0 19.085  99.0  9.90
+#> 21 0.0.5.9001       more cpu 9967 my_worker      0 20.090  98.8  9.88
+#> 22 0.0.5.9001   third object 9967 my_worker      0 21.095  99.6  9.96
+#> 23 0.0.5.9001   third object 9967 my_worker      0 22.100  98.3  9.83
+#>      resident  virtual
+#> 1    77.49632 420432.5
+#> 2    77.49632 420432.5
+#> 3    77.67654 420442.0
+#> 4   387.76013 421250.4
+#> 5   709.95149 421250.4
+#> 6   901.48045 421267.2
+#> 7   909.86906 421267.2
+#> 8   914.24358 421267.2
+#> 9   921.55085 421267.2
+#> 10  921.55085 421267.2
+#> 11  925.56493 421267.2
+#> 12  925.59770 421267.2
+#> 13 1194.86874 422067.2
+#> 14 1520.17306 422067.2
+#> 15 1733.59104 422067.2
+#> 16 1736.57293 422067.2
+#> 17 1736.57293 422067.2
+#> 18 1736.58931 422067.2
+#> 19 1737.73619 422075.6
+#> 20 1744.99430 422075.6
+#> 21 1744.99430 422075.6
+#> 22 1982.66061 422875.6
+#> 23 2297.18426 422875.6
 ```
 
 `autometric` also supports simple visualizations plot performance
@@ -177,16 +196,16 @@ fancier visualizations directly with
 [`ggplot2`](https://ggplot2.tidyverse.org/).
 
 ``` r
-log_plot(log_data, metric = "cpu")
-```
-
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
-
-``` r
 log_plot(log_data, metric = "resident")
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-resident-1.png" width="100%" />
+
+``` r
+log_plot(log_data, phase = "more cpu", metric = "cpu")
+```
+
+<img src="man/figures/README-cpu-1.png" width="100%" />
 
 ## Attribution
 
@@ -216,3 +235,5 @@ By contributing to this project, you agree to abide by its terms.
     cloud where a service like [Amazon
     CloudWatch](https://aws.amazon.com/cloudwatch/) captures messages
     instead of directing them to a physical file.
+
+[^2]: See also `log_phase_get()` and `log_phase_reset()`
