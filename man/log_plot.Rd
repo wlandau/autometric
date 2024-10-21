@@ -4,7 +4,7 @@
 \alias{log_plot}
 \title{Plot a metric of a process over time}
 \usage{
-log_plot(log, pid = NULL, name = NULL, metric = "resident", ...)
+log_plot(log, pid = NULL, name = NULL, phase = NULL, metric = "resident", ...)
 }
 \arguments{
 \item{log}{Data frame returned by \code{\link[=log_read]{log_read()}}. Must be nonempty.
@@ -17,6 +17,11 @@ ID to plot. At least one of \code{pid} or \code{name} must be \code{NULL}.}
 the process to plot. The name was previously specified in the
 names of the \code{pid} argument of \code{\link[=log_start]{log_start()}} or \code{\link[=log_print]{log_print()}}.
 At least one of \code{pid} or \code{name} must be \code{NULL}.}
+
+\item{phase}{Either \code{NULL} or a character string specifying the
+name of a log phase (see \code{\link[=log_phase_set]{log_phase_set()}}).
+If not \code{NULL}, then \code{\link[=log_print]{log_print()}} will only visualize data from
+the given log phase.}
 
 \item{metric}{Character string with the name of a metric to plot
 against time. Must be only a single string.

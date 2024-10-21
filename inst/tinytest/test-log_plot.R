@@ -10,6 +10,7 @@ local({
     log_plot(log, pid = NULL, name = NULL)
     log_plot(log, pid = pid, name = NULL)
     log_plot(log, pid = NULL, name = "local")
+    log_plot(log, pid = NULL, name = "local", phase = log_phase_get())
     expect_error(log_plot(log, pid = pid, name = "local"))
     expect_true(TRUE)
     dev.off()

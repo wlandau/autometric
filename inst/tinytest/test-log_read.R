@@ -7,7 +7,7 @@ local({
     expect_equal(
       colnames(out),
       c(
-        "version", "pid", "name", "status", "time",
+        "version", "phase", "pid", "name", "status", "time",
         "core", "cpu", "resident", "virtual"
       )
     )
@@ -38,7 +38,7 @@ local({
     expect_equal(
       colnames(out),
       c(
-        "version", "pid", "name", "status", "time",
+        "version", "phase", "pid", "name", "status", "time",
         "core", "cpu", "resident", "virtual"
       )
     )

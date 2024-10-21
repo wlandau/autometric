@@ -14,7 +14,7 @@ Description: Intense parallel workloads can be difficult to monitor.
   visualize the log file to reveal potential resource-related
   reasons for the crash. The 'autometric' package borrows heavily from
   the methods of packages 'ps' <doi:10.32614/CRAN.package.ps> and 'psutil'.
-Version: 0.0.5.9000
+Version: 0.0.5.9001
 License: MIT + file LICENSE
 URL:
   https://wlandau.github.io/autometric/,

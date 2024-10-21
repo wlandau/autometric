@@ -1,6 +1,7 @@
-# autometric 0.0.5.9000 (development)
+# autometric 0.0.5.9001 (development)
 
-* Default `ylim` in `log_plot()`.
+* Adjust default `ylim` in `log_plot()`.
+* Add `log_phase_get()`, `log_phase_set()`, and `log_phase_reset()` (#2, #3, @koefoeden).
 
 # autometric 0.0.5
 

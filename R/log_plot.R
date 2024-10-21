@@ -16,6 +16,10 @@
 #'   the process to plot. The name was previously specified in the
 #'   names of the `pid` argument of [log_start()] or [log_print()].
 #'   At least one of `pid` or `name` must be `NULL`.
+#' @param phase Either `NULL` or a character string specifying the
+#'   name of a log phase (see [log_phase_set()]).
+#'   If not `NULL`, then [log_print()] will only visualize data from
+#'   the given log phase.
 #' @param ... Named optional parameters to pass to the base
 #'   function `plot()`.
 #' @examples
@@ -31,6 +35,7 @@ log_plot <- function(
   log,
   pid = NULL,
   name = NULL,
+  phase = NULL,
   metric = "resident",
   ...
 ) {
@@ -41,6 +46,12 @@ log_plot <- function(
   stopifnot(nzchar(metric))
   stopifnot(all(c("time", metric) %in% colnames(log)))
   log <- log[as.integer(log$status) == 0L,, drop = FALSE] # nolint
+  if (!is.null(phase) && "phase" %in% colnames(log)) {
+    stopifnot(is.character(phase))
+    stopifnot(length(phase) == 1L)
+    stopifnot(!anyNA(phase))
+    log <- log[log$phase == phase,, drop = FALSE] # nolint
+  }
   if (is.null(pid) && is.null(name)) {
     stopifnot("pid" %in% colnames(log))
     pid <- log$pid[1L]
@@ -54,7 +65,7 @@ log_plot <- function(
     stopifnot(all(is.finite(pid)))
     stopifnot("pid" %in% colnames(log))
     log <- log[as.integer(log$pid) == as.integer(pid),, drop = FALSE] # nolint
-    default_title <- paste("Process ID:", pid)
+    default_title <- paste("process ID:", pid)
   }
   if (!is.null(name)) {
     stopifnot(is.character(name))
@@ -62,7 +73,10 @@ log_plot <- function(
     stopifnot(!anyNA(name))
     stopifnot("name" %in% colnames(log))
     log <- log[as.character(log$name) == name,, drop = FALSE] # nolint
-    default_title <- paste("Process name:", name)
+    default_title <- paste("process name:", name)
+  }
+  if (!is.null(phase)) {
+    default_title <- paste0("log phase: ", phase, "\n", default_title)
   }
   args <- list(
     x = log$time,
