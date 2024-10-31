@@ -1,6 +1,6 @@
-# autometric 0.1.0.9000 (development)
+# autometric 0.1.1
 
-
+* Do not overwrite null character in `strncpy()`.
 
 # autometric 0.1.0
 
