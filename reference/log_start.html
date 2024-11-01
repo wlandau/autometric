@@ -19,7 +19,7 @@ See log_read() for explanations of the specific metrics."><meta property="og:ima
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">autometric</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1.9000</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@ See log_read() for explanations of the specific metrics."><meta property="og:ima
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Start the log thread.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/wlandau/autometric/blob/0.1.1/R/log_start.R" class="external-link"><code>R/log_start.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/wlandau/autometric/blob/main/R/log_start.R" class="external-link"><code>R/log_start.R</code></a></small>
     <div class="hidden name"><code>log_start.Rd</code></div>
     </div>
 
@@ -133,11 +133,11 @@ the first one.</p>
 <span class="r-in"><span>  <span class="fu"><a href="log_stop.html">log_stop</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="log_read.html">log_read</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   version       phase  pid  name status  time core cpu resident  virtual</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0.1.1 __DEFAULT__ 5732 local      0 0.000    0   0 154.4151 876.8758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   0.1.1 __DEFAULT__ 5732 local      0 0.500    0   0 154.4151 876.8758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   0.1.1 __DEFAULT__ 5732 local      0 1.001    0   0 154.4151 876.8758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   0.1.1 __DEFAULT__ 5732 local      0 1.501    0   0 154.4151 876.8758</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      version       phase  pid  name status      time core cpu resident  virtual</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1.1.9000 __DEFAULT__ 5725 local      0 0.0000000    0   0 154.3291 876.8717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1.1.9000 __DEFAULT__ 5725 local      0 0.5009999    0   0 154.3291 876.8717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.1.1.9000 __DEFAULT__ 5725 local      0 1.0009999    0   0 154.3291 876.8717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.1.1.9000 __DEFAULT__ 5725 local      0 1.5009999    0   0 154.3291 876.8717</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
