@@ -1,3 +1,7 @@
+# autometric 0.1.1.9000
+
+* Plot the last PID by default.
+
 # autometric 0.1.1
 
 * Do not overwrite null character in `strncpy()`.

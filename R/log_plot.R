@@ -54,7 +54,7 @@ log_plot <- function(
   }
   if (is.null(pid) && is.null(name)) {
     stopifnot("pid" %in% colnames(log))
-    pid <- log$pid[1L]
+    pid <- log$pid[nrow(log)]
   }
   if (!is.null(pid) && !is.null(name)) {
     stop("At least one of pid or name must be NULL.")
