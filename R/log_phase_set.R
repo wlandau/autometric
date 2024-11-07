@@ -17,10 +17,6 @@
 #'   log_phase_get()
 #'   log_read(path)
 log_phase_set <- function(phase) {
-  stopifnot(is.character(phase))
-  stopifnot(length(phase) == 1L)
-  stopifnot(!anyNA(phase))
-  stopifnot(!any(grepl("|", phase, fixed = TRUE)))
   .Call(r_log_phase_set, phase, PACKAGE = "autometric")
   invisible()
 }

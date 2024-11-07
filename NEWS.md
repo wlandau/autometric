@@ -1,6 +1,7 @@
-# autometric 0.1.1.9000
+# autometric 0.1.1.9001
 
 * Plot the last PID by default.
+* Speed up `log_phase_set()`.
 
 # autometric 0.1.1
 
