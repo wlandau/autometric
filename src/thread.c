@@ -1,6 +1,6 @@
 #include "support.h"
 
-#if SUPPORT
+#if SUPPORT_LOG
 #include "thread.h"
 
 pthread_mutex_t run_mutex = PTHREAD_MUTEX_INITIALIZER;

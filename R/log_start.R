@@ -1,5 +1,6 @@
 #' @title Start the log thread.
 #' @export
+#' @family log
 #' @description Start a background thread that periodically writes
 #'   system usage metrics of the current R process to a log file.
 #'   See [log_read()] for explanations of the specific metrics.

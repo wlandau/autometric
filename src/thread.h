@@ -2,7 +2,7 @@
 #define THREAD_H
 
 #include "support.h"
-#if SUPPORT
+#if SUPPORT_LOG
 
 #include "metrics.h"
 #include <pthread.h>

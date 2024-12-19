@@ -1,5 +1,6 @@
 #' @title Read a log.
 #' @export
+#' @family log
 #' @description Read a log file into R.
 #' @details [log_read()] is capable of reading a log file where both
 #'   `autometric` and other processes have printed. Whenever `autometric`

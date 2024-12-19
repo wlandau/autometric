@@ -1,6 +1,8 @@
 #include "log.h"
+#include "stat.h"
 
 static const R_CallMethodDef call_methods[] = {
+  {"r_dir_stat", (DL_FUNC) &dir_stat, 1},
   {"r_log_active", (DL_FUNC) &log_active, 0},
   {"r_log_phase_get", (DL_FUNC) &log_phase_get, 0},
   {"r_log_phase_reset", (DL_FUNC) &log_phase_reset, 0},

@@ -1,6 +1,6 @@
 #include "log.h"
 #include "support.h"
-#if SUPPORT
+#if SUPPORT_LOG
 
 #include "metrics.h"
 #include "thread.h"
