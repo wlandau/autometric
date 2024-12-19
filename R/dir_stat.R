@@ -14,17 +14,27 @@
 #'   if a file is a link, then [dir_stat()] describes the file it points
 #'   to, rather than the link itself.
 #' @return A data frame with one row per file and columns for the file path,
-#'   numeric size in bytes, and numeric modification time stamp of each file.
+#'   numeric size, and modification time stamp of each file.
+#'   The units of these last two columns are controlled by the
+#'   `units_size` and `units_mtime` arguments, respectively.
 #' @param path Character string, file path to the directory of files
 #'   to describe.
+#' @param units_size Character string with the units of the returned
+#'   `size` column in the output: `"megabytes"`, `"bytes"`, `"kilobytes"`,
+#'   or `"gigabytes"`.
+#' @param units_mtime Character string with the units of the returned
+#'   `mtime` column in the output with file modification time stamps.
+#'   Choices are `"POSIXct` for a `POSIXct` time object or `"numeric"`
+#'   for an ordinary numeric vector.
 #' @examples
 #'   file.create(tempfile())
 #'   file.create(tempfile())
-#'   dir_stat(tempdir())
+#'   dir_stat(tempdir(), recent = as.difftime(1, units = "secs"))
 dir_stat <- function(
   path,
   units_size = c("megabytes", "bytes", "kilobytes", "gigabytes"),
-  units_mtime = c("POSIXct", "numeric")
+  units_mtime = c("POSIXct", "numeric"),
+  recent = NULL
 ) {
   stopifnot(is.character(path))
   stopifnot(!anyNA(path))
@@ -50,5 +60,11 @@ dir_stat <- function(
     }
   }
   out$size <- out$size * get_factor_size(units_size)
+  if (!is.null(recent)) {
+    stopifnot(length(recent) == 1L)
+    stopifnot(!anyNA(recent))
+    stopifnot(inherits(recent, "difftime"))
+    out <- out[.POSIXct(out$mtime) > Sys.time() - recent, ]
+  }
   out
 }

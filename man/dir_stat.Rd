@@ -4,15 +4,31 @@
 \alias{dir_stat}
 \title{Efficiently describe files in a directory.}
 \usage{
-dir_stat(path)
+dir_stat(
+  path,
+  units_size = c("megabytes", "bytes", "kilobytes", "gigabytes"),
+  units_mtime = c("POSIXct", "numeric"),
+  recent = NULL
+)
 }
 \arguments{
 \item{path}{Character string, file path to the directory of files
 to describe.}
+
+\item{units_size}{Character string with the units of the returned
+\code{size} column in the output: \code{"megabytes"}, \code{"bytes"}, \code{"kilobytes"},
+or \code{"gigabytes"}.}
+
+\item{units_mtime}{Character string with the units of the returned
+\code{mtime} column in the output with file modification time stamps.
+Choices are \verb{"POSIXct} for a \code{POSIXct} time object or \code{"numeric"}
+for an ordinary numeric vector.}
 }
 \value{
 A data frame with one row per file and columns for the file path,
-size in bytes, and modification time stamp of each file.
+numeric size, and modification time stamp of each file.
+The units of these last two columns are controlled by the
+\code{units_size} and \code{units_mtime} arguments, respectively.
 }
 \description{
 List the paths, sizes, modification times,
@@ -33,6 +49,6 @@ to, rather than the link itself.
 \examples{
   file.create(tempfile())
   file.create(tempfile())
-  dir_stat(tempdir())
+  dir_stat(tempdir(), recent = as.difftime(1, units = "secs"))
 }
 \concept{utilities}
