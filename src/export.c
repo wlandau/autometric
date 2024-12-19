@@ -1,4 +1,4 @@
-#include "autometric.h"
+#include "log.h"
 
 static const R_CallMethodDef call_methods[] = {
   {"r_log_active", (DL_FUNC) &log_active, 0},

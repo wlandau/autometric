@@ -1,4 +1,4 @@
-#include "autometric.h"
+#include "log.h"
 #include "support.h"
 #if SUPPORT
 
