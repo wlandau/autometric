@@ -15,7 +15,6 @@
 #include <unistd.h>
 
 #define PHASE_DEFAULT "__DEFAULT__"
-#define PHASE_N 256
 
 typedef struct {
   char* path;

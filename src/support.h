@@ -61,22 +61,14 @@
   #endif
 #endif
 
-#ifndef SUPPORT_POSIX_2008
-  #define SUPPORT_POSIX_2008 0
+#ifndef SUPPORT_READDIR
+  #define SUPPORT_READDIR 0
   #ifdef _POSIX_VERSION
-    #if _POSIX_VERSION >= 200809L
-      #undef SUPPORT_POSIX_2008
-      #define SUPPORT_POSIX_2008 1
-      #define _XOPEN_SOURCE 500
+    #if _POSIX_VERSION >= 200112L
+      #undef SUPPORT_READDIR
+      #define SUPPORT_READDIR 1
+      #define _XOPEN_SOURCE 600
     #endif
-  #endif
-#endif
-
-#ifndef SUPPORT_NFTW
-  #if SUPPORT_POSIX_2008
-    #define SUPPORT_NFTW 1
-  #else
-    #define SUPPORT_NFTW 0
   #endif
 #endif
 

@@ -21,3 +21,13 @@ and the \code{nanosleep()} C function.
 \examples{
   log_support()
 }
+\seealso{
+Other log: 
+\code{\link{log_active}()},
+\code{\link{log_plot}()},
+\code{\link{log_print}()},
+\code{\link{log_read}()},
+\code{\link{log_start}()},
+\code{\link{log_stop}()}
+}
+\concept{log}
