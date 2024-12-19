@@ -66,8 +66,8 @@ local({
 
 local({
   package <- getNamespace("autometric")
-  expect_equal(package$get_factor_memory("bytes"), 1)
-  expect_equal(package$get_factor_memory("kilobytes"), 1e-3)
-  expect_equal(package$get_factor_memory("megabytes"), 1e-6)
-  expect_equal(package$get_factor_memory("gigabytes"), 1e-9)
+  expect_equal(package$get_factor_size("bytes"), 1)
+  expect_equal(package$get_factor_size("kilobytes"), 1e-3)
+  expect_equal(package$get_factor_size("megabytes"), 1e-6)
+  expect_equal(package$get_factor_size("gigabytes"), 1e-9)
 })
