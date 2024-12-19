@@ -26,6 +26,12 @@
 #'   `mtime` column in the output with file modification time stamps.
 #'   Choices are `"POSIXct` for a `POSIXct` time object or `"numeric"`
 #'   for an ordinary numeric vector.
+#' @param recent Either `NULL` or an optional `"difftime"` object.
+#'   If a `"difftime"` object is supplied, then [dir_stat()]
+#'   only shows the most recently modified files in that time window.
+#'   For example, `recent = as.difftime(1.5, units = "hours")` tells
+#'   [dir_stat()] to only return information on files modified within
+#'   the last 1.5 hours.
 #' @examples
 #'   file.create(tempfile())
 #'   file.create(tempfile())

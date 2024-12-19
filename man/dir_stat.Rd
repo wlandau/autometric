@@ -23,6 +23,13 @@ or \code{"gigabytes"}.}
 \code{mtime} column in the output with file modification time stamps.
 Choices are \verb{"POSIXct} for a \code{POSIXct} time object or \code{"numeric"}
 for an ordinary numeric vector.}
+
+\item{recent}{Either \code{NULL} or an optional \code{"difftime"} object.
+If a \code{"difftime"} object is supplied, then \code{\link[=dir_stat]{dir_stat()}}
+only shows the most recently modified files in that time window.
+For example, \code{recent = as.difftime(1.5, units = "hours")} tells
+\code{\link[=dir_stat]{dir_stat()}} to only return information on files modified within
+the last 1.5 hours.}
 }
 \value{
 A data frame with one row per file and columns for the file path,
