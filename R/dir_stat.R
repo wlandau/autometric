@@ -14,21 +14,41 @@
 #'   if a file is a link, then [dir_stat()] describes the file it points
 #'   to, rather than the link itself.
 #' @return A data frame with one row per file and columns for the file path,
-#'   size in bytes, and modification time stamp of each file.
+#'   numeric size in bytes, and numeric modification time stamp of each file.
 #' @param path Character string, file path to the directory of files
 #'   to describe.
 #' @examples
 #'   file.create(tempfile())
 #'   file.create(tempfile())
 #'   dir_stat(tempdir())
-dir_stat <- function(path) {
+dir_stat <- function(
+  path,
+  units_size = c("megabytes", "bytes", "kilobytes", "gigabytes"),
+  units_mtime = c("POSIXct", "numeric")
+) {
   stopifnot(is.character(path))
   stopifnot(!anyNA(path))
   stopifnot(all(nzchar(path)))
   stopifnot(dir.exists(path))
+  units_size <- match.arg(units_size)
+  units_mtime <- match.arg(units_mtime)
   out <- .Call(r_dir_stat, path, PACKAGE = "autometric")
   if (is.null(out)) {
-    out <- file.info(list.files(out, full.names = TRUE), extra_cols = FALSE)
+    info <- file.info(list.files(out, full.names = TRUE), extra_cols = FALSE)
+    out <- data.frame(
+      path = rownames(info),
+      size = as.numeric(info$size),
+      mtime = info$mtime
+    )
+    if (identical(units_mtime, "numeric")) {
+      out$mtime <- as.numeric(out$mtime)
+    }
+  } else {
+    out <- as.data.frame(out)
+    if (identical(units_mtime, "POSIXct")) {
+      out$mtime <- .POSIXct(out$mtime)
+    }
   }
-  as.data.frame(out)
+  out$size <- out$size * get_factor_size(units_size)
+  out
 }
