@@ -2,7 +2,8 @@
 #' @export
 #' @family utilities
 #' @description List the paths, sizes, modification times,
-#'   of all the regular files at the top level in a directory.
+#'   of all the regular files at (or linked from)
+#'   the top level in a directory.
 #' @details In large computational pipelines, it is common to end up with
 #'   tens of thousands of log files in a directory.
 #'   At this level of scale, [base::file.info()]

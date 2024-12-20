@@ -49,7 +49,8 @@ The units of these last two columns are controlled by the
 }
 \description{
 List the paths, sizes, modification times,
-of all the regular files at the top level in a directory.
+of all the regular files at (or linked from)
+the top level in a directory.
 }
 \details{
 In large computational pipelines, it is common to end up with

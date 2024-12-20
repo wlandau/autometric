@@ -76,3 +76,49 @@ local({
     unlink(path, recursive = TRUE)
   }
 })
+
+local({
+  if (tolower(Sys.info()["sysname"]) != "windows") {
+    path <- tempfile()
+    dir.create(path)
+    link <- file.path(path, "link")
+    target <- tempfile()
+    writeLines("a", target)
+    file.symlink(from = target, to = link)
+    out_c <- dir_stat(
+      path,
+      method = "c",
+      units_size = "bytes",
+      units_mtime = "numeric",
+      recent = as.difftime(1, units = "hours")
+    )
+    out_r <- dir_stat(
+      path,
+      method = "r",
+      units_size = "bytes",
+      units_mtime = "numeric",
+      recent = as.difftime(1, units = "hours")
+    )
+    expect_equal(out_c$size, 2L)
+    expect_equal(out_r$size, 2L)
+    writeLines("abc", target)
+    out_c <- dir_stat(
+      path,
+      method = "c",
+      units_size = "bytes",
+      units_mtime = "numeric",
+      recent = as.difftime(1, units = "hours")
+    )
+    out_r <- dir_stat(
+      path,
+      method = "r",
+      units_size = "bytes",
+      units_mtime = "numeric",
+      recent = as.difftime(1, units = "hours")
+    )
+    expect_equal(out_c$size, 4L)
+    expect_equal(out_r$size, 4L)
+    unlink(c(path, target), recursive = TRUE)
+  }
+})
+

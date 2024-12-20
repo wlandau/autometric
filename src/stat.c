@@ -32,10 +32,8 @@ SEXP dir_stat(SEXP path) {
   while ((entry = readdir(handle)) != NULL) {
     R_CheckUserInterrupt();
     snprintf(buffer, BUFFER_SIZE, "%s/%s", parent, entry->d_name);
-    if (entry->d_type == DT_REG) {
+    if (entry->d_type == DT_REG || entry->d_type == DT_LNK) {
       stat_result = stat(buffer, &stat_info);
-    } else if (entry->d_type == DT_LNK) {
-      stat_result = lstat(buffer, &stat_info);
     } else {
       continue;
     }
