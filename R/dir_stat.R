@@ -7,7 +7,9 @@
 #'   tens of thousands of log files in a directory.
 #'   At this level of scale, [base::file.info()]
 #'   is slow on older file systems.
-#'   [autometric::dir_stat()] can be up to 40 times faster.
+#'   [autometric::dir_stat()] can be up to 40 times faster where
+#'   the C implementation is supported
+#'   (POSIX.1-2008 machines and Mac OS).
 #'
 #'   [dir_stat()] is not recursive: it only queries regular files at the
 #'   top level of a directory. In addition, it follows symbolic links:
@@ -35,10 +37,11 @@
 #' @param method Character string, type of implementation used.
 #'   Set to `"c"` for an implementation that is up to 40 times faster than
 #'   [base::file.info()] but may not be supported on certain platforms.
-#'   Set to `"r"` to run [base::file.info()].
+#'   Set to `"r"` to run [base::file.info()], which is slower.
 #'   If `method` is `"c"` but the C implementation is not supported
 #'   on your platform, [dir_stat()] automatically falls back on
 #'   [base::file.info()].
+#'   The C implementation is supported on POSIX.1-2008 machines and on Mac OS.
 #' @examples
 #'   file.create(tempfile())
 #'   file.create(tempfile())

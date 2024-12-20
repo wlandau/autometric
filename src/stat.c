@@ -2,6 +2,12 @@
 
 #if SUPPORT_READDIR
 
+#if OS_MAC
+  #define STAT_MTIME st_mtimespec
+#else
+  #define STAT_MTIME st_mtim
+#endif
+
 SEXP dir_stat(SEXP path) {
   const char* parent = CHAR(STRING_ELT(path, 0));
   DIR* handle = opendir(parent);
@@ -38,7 +44,8 @@ SEXP dir_stat(SEXP path) {
     }
     SET_STRING_ELT(file, count, mkChar(buffer));
     REAL(size)[count] = (double) stat_info.st_size;
-    REAL(mtime)[count] = (double) stat_info.st_mtime;
+    REAL(mtime)[count] = (double) stat_info.STAT_MTIME.tv_sec +
+      1e-9 * (double) stat_info.STAT_MTIME.tv_nsec;
     ++count;
     if (count == capacity) {
       capacity *= 2;

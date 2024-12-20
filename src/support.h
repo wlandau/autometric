@@ -64,7 +64,7 @@
 #ifndef SUPPORT_READDIR
   #define SUPPORT_READDIR 0
   #ifdef _POSIX_VERSION
-    #if _POSIX_VERSION >= 200112L
+    #if _POSIX_C_SOURCE >= 200809L || OS_MAC
       #undef SUPPORT_READDIR
       #define SUPPORT_READDIR 1
       #define _XOPEN_SOURCE 600

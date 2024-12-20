@@ -35,10 +35,11 @@ the last 1.5 hours.}
 \item{method}{Character string, type of implementation used.
 Set to \code{"c"} for an implementation that is up to 40 times faster than
 \code{\link[base:file.info]{base::file.info()}} but may not be supported on certain platforms.
-Set to \code{"r"} to run \code{\link[base:file.info]{base::file.info()}}.
+Set to \code{"r"} to run \code{\link[base:file.info]{base::file.info()}}, which is slower.
 If \code{method} is \code{"c"} but the C implementation is not supported
 on your platform, \code{\link[=dir_stat]{dir_stat()}} automatically falls back on
-\code{\link[base:file.info]{base::file.info()}}.}
+\code{\link[base:file.info]{base::file.info()}}.
+The C implementation is supported on POSIX.1-2008 machines and on Mac OS.}
 }
 \value{
 A data frame with one row per file and columns for the file path,
@@ -55,7 +56,9 @@ In large computational pipelines, it is common to end up with
 tens of thousands of log files in a directory.
 At this level of scale, \code{\link[base:file.info]{base::file.info()}}
 is slow on older file systems.
-\code{\link[=dir_stat]{dir_stat()}} can be up to 40 times faster.
+\code{\link[=dir_stat]{dir_stat()}} can be up to 40 times faster where
+the C implementation is supported
+(POSIX.1-2008 machines and Mac OS).
 
 \code{\link[=dir_stat]{dir_stat()}} is not recursive: it only queries regular files at the
 top level of a directory. In addition, it follows symbolic links:
