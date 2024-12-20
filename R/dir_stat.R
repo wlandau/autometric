@@ -79,7 +79,9 @@ dir_stat_c <- function(path, units_mtime) {
 }
 
 dir_stat_r <- function(path, units_mtime) {
-  info <- file.info(list.files(path, full.names = TRUE), extra_cols = FALSE)
+  directories <- list.dirs(path, full.names = TRUE, recursive = FALSE)
+  files <- setdiff(list.files(path, full.names = TRUE), directories)
+  info <- file.info(files, extra_cols = FALSE)
   out <- data.frame(
     path = rownames(info),
     size = as.numeric(info$size),
