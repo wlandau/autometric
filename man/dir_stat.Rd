@@ -69,6 +69,6 @@ to, rather than the link itself.
 \examples{
   file.create(tempfile())
   file.create(tempfile())
-  dir_stat(tempdir(), recent = as.difftime(1, units = "secs"))
+  dir_stat(tempdir(), recent = as.difftime(1, units = "hours"))
 }
 \concept{utilities}
