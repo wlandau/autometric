@@ -46,7 +46,9 @@
 #' @examples
 #'   file.create(tempfile())
 #'   file.create(tempfile())
-#'   dir_stat(tempdir(), recent = as.difftime(1, units = "hours"))
+#'   if (tolower(Sys.info()["sysname"]) != "windows") {
+#'     print(dir_stat(tempdir(), recent = as.difftime(1, units = "hours")))
+#'   }
 dir_stat <- function(
   path,
   units_size = c("megabytes", "bytes", "kilobytes", "gigabytes"),
