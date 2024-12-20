@@ -32,6 +32,13 @@
 #'   For example, `recent = as.difftime(1.5, units = "hours")` tells
 #'   [dir_stat()] to only return information on files modified within
 #'   the last 1.5 hours.
+#' @param method Character string, type of implementation used.
+#'   Set to `"c"` for an implementation that is up to 40 times faster than
+#'   [base::file.info()] but may not be supported on certain platforms.
+#'   Set to `"r"` to run [base::file.info()].
+#'   If `method` is `"c"` but the C implementation is not supported
+#'   on your platform, [dir_stat()] automatically falls back on
+#'   [base::file.info()].
 #' @examples
 #'   file.create(tempfile())
 #'   file.create(tempfile())
@@ -40,7 +47,8 @@ dir_stat <- function(
   path,
   units_size = c("megabytes", "bytes", "kilobytes", "gigabytes"),
   units_mtime = c("POSIXct", "numeric"),
-  recent = NULL
+  recent = NULL,
+  method = c("c", "r")
 ) {
   stopifnot(is.character(path))
   stopifnot(!anyNA(path))
@@ -48,22 +56,9 @@ dir_stat <- function(
   stopifnot(dir.exists(path))
   units_size <- match.arg(units_size)
   units_mtime <- match.arg(units_mtime)
-  out <- .Call(r_dir_stat, path, PACKAGE = "autometric")
-  if (is.null(out)) {
-    info <- file.info(list.files(out, full.names = TRUE), extra_cols = FALSE)
-    out <- data.frame(
-      path = rownames(info),
-      size = as.numeric(info$size),
-      mtime = info$mtime
-    )
-    if (identical(units_mtime, "numeric")) {
-      out$mtime <- as.numeric(out$mtime)
-    }
-  } else {
-    out <- as.data.frame(out)
-    if (identical(units_mtime, "POSIXct")) {
-      out$mtime <- .POSIXct(out$mtime)
-    }
+  method <- match.arg(method)
+  if (method == "r" || is.null(out <- dir_stat_c(path, units_mtime))) {
+    out <- dir_stat_r(path, units_mtime)
   }
   out$size <- out$size * get_factor_size(units_size)
   if (!is.null(recent)) {
@@ -71,6 +66,27 @@ dir_stat <- function(
     stopifnot(!anyNA(recent))
     stopifnot(inherits(recent, "difftime"))
     out <- out[.POSIXct(out$mtime) > Sys.time() - recent, ]
+  }
+  out
+}
+
+dir_stat_c <- function(path, units_mtime) {
+  out <- .Call(r_dir_stat, path, PACKAGE = "autometric")
+  if (identical(units_mtime, "POSIXct")) {
+    out$mtime <- .POSIXct(out$mtime)
+  }
+  as.data.frame(out)
+}
+
+dir_stat_r <- function(path, units_mtime) {
+  info <- file.info(list.files(path, full.names = TRUE), extra_cols = FALSE)
+  out <- data.frame(
+    path = rownames(info),
+    size = as.numeric(info$size),
+    mtime = info$mtime
+  )
+  if (identical(units_mtime, "numeric")) {
+    out$mtime <- as.numeric(out$mtime)
   }
   out
 }

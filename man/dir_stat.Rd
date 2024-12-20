@@ -8,7 +8,8 @@ dir_stat(
   path,
   units_size = c("megabytes", "bytes", "kilobytes", "gigabytes"),
   units_mtime = c("POSIXct", "numeric"),
-  recent = NULL
+  recent = NULL,
+  method = c("c", "r")
 )
 }
 \arguments{
@@ -30,6 +31,14 @@ only shows the most recently modified files in that time window.
 For example, \code{recent = as.difftime(1.5, units = "hours")} tells
 \code{\link[=dir_stat]{dir_stat()}} to only return information on files modified within
 the last 1.5 hours.}
+
+\item{method}{Character string, type of implementation used.
+Set to \code{"c"} for an implementation that is up to 40 times faster than
+\code{\link[base:file.info]{base::file.info()}} but may not be supported on certain platforms.
+Set to \code{"r"} to run \code{\link[base:file.info]{base::file.info()}}.
+If \code{method} is \code{"c"} but the C implementation is not supported
+on your platform, \code{\link[=dir_stat]{dir_stat()}} automatically falls back on
+\code{\link[base:file.info]{base::file.info()}}.}
 }
 \value{
 A data frame with one row per file and columns for the file path,
