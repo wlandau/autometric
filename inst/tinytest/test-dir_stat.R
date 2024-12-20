@@ -19,6 +19,8 @@ local({
         units_size = "bytes",
         units_mtime = units_mtime
       )
+      out_c <- out_c[order(out_c$path), ]
+      out_r <- out_c[order(out_r$path), ]
       out_c$path <- basename(out_c$path)
       out_r$path <- basename(out_r$path)
       out_c$size <- as.integer(out_c$size)
