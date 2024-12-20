@@ -1,7 +1,7 @@
 #ifndef METRICS_H
 #define METRICS_H
 
-#include "error.h"
+#include "constant.h"
 #include "timers.h"
 #include <stdio.h>
 #include <stdlib.h>

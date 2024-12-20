@@ -1,5 +1,6 @@
 #' @title Log support
 #' @export
+#' @family log
 #' @description Check if your system supports background logging.
 #' @details The background logging functionality requires a Linux, Mac,
 #'   or Windows computer, It also requires POSIX thread support

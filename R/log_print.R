@@ -1,5 +1,6 @@
 #' @title Print once to the log.
 #' @export
+#' @family log
 #' @description Sample CPU load metrics and
 #'   print a single line to the log for each process in `pids`.
 #'   Used for debugging and testing only. Not for users.

@@ -2,7 +2,7 @@
 #define THREAD_H
 
 #include "support.h"
-#if SUPPORT
+#if SUPPORT_LOG
 
 #include "metrics.h"
 #include <pthread.h>
@@ -15,7 +15,6 @@
 #include <unistd.h>
 
 #define PHASE_DEFAULT "__DEFAULT__"
-#define PHASE_N 256
 
 typedef struct {
   char* path;

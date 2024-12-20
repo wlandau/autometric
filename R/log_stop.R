@@ -1,5 +1,6 @@
 #' @title Stop the log thread.
 #' @export
+#' @family log
 #' @description Stop the background thread that periodically writes
 #'   system usage metrics of the current R process to a log file.
 #' @details The background thread is detached, so is there no way to

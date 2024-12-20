@@ -1,5 +1,6 @@
 #' @title Get log phase
 #' @export
+#' @family phase
 #' @description Get the current log phase.
 #' @return Character string with the name of the current log phase.
 #' @examples

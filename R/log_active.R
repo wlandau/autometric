@@ -1,5 +1,6 @@
 #' @title Check the log thread.
 #' @export
+#' @family log
 #' @description Check if the log is running.
 #' @return `TRUE` if a background thread is actively writing to the log,
 #'   `FALSE` otherwise. The result is based on a static C variable,

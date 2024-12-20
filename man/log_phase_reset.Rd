@@ -23,3 +23,9 @@ Reset the current log phase to the default value.
   log_phase_get()
   log_read(path)
 }
+\seealso{
+Other phase: 
+\code{\link{log_phase_get}()},
+\code{\link{log_phase_set}()}
+}
+\concept{phase}

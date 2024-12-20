@@ -25,3 +25,13 @@ Check if the log is running.
   log_active()
   unlink(path)
 }
+\seealso{
+Other log: 
+\code{\link{log_plot}()},
+\code{\link{log_print}()},
+\code{\link{log_read}()},
+\code{\link{log_start}()},
+\code{\link{log_stop}()},
+\code{\link{log_support}()}
+}
+\concept{log}

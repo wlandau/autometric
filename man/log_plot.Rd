@@ -49,3 +49,13 @@ in a single log file.
   log_plot(log, metric = "cpu")
   unlink(path)
 }
+\seealso{
+Other log: 
+\code{\link{log_active}()},
+\code{\link{log_print}()},
+\code{\link{log_read}()},
+\code{\link{log_start}()},
+\code{\link{log_stop}()},
+\code{\link{log_support}()}
+}
+\concept{log}

@@ -3,11 +3,11 @@
 
 #include "support.h"
 
-#if TIMERS
+#if SUPPORT_TIMERS
 
 typedef struct timespec time_spec_t;
 
-#elif WINDOWS
+#elif OS_WINDOWS
 
 #include <windows.h>
 

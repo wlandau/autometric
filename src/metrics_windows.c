@@ -6,7 +6,7 @@
  */
 
 #include "metrics.h"
-#if WINDOWS
+#if OS_WINDOWS
 
 #define PSAPI_VERSION 1
 #include <windows.h>

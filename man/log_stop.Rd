@@ -30,3 +30,13 @@ lines in the log even after you call \code{\link[=log_stop]{log_stop()}}.
   log_read(path)
   unlink(path)
 }
+\seealso{
+Other log: 
+\code{\link{log_active}()},
+\code{\link{log_plot}()},
+\code{\link{log_print}()},
+\code{\link{log_read}()},
+\code{\link{log_start}()},
+\code{\link{log_support}()}
+}
+\concept{log}

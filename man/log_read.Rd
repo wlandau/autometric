@@ -102,3 +102,13 @@ into the units  \code{units_time},
   log_read(path)
   unlink(path)
 }
+\seealso{
+Other log: 
+\code{\link{log_active}()},
+\code{\link{log_plot}()},
+\code{\link{log_print}()},
+\code{\link{log_start}()},
+\code{\link{log_stop}()},
+\code{\link{log_support}()}
+}
+\concept{log}

@@ -1,6 +1,6 @@
-# autometric 0.1.2.9000
+# autometric 0.1.2.9001
 
-
+* Add `dir_stat()` to return file info metadata in a directory faster than `base::file.info()` (#5).
 
 # autometric 0.1.2
 
@@ -36,4 +36,3 @@
 # autometric 0.0.3
 
 * First version
-
