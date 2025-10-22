@@ -1,0 +1,14 @@
+name: r-multiverse-staging
+
+permissions:
+  contents: read
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  r-multiverse-staging:
+    uses: r-multiverse/workflows/.github/workflows/check-staging.yaml@main
+    secrets: inherit
