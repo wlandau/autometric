@@ -1,5 +1,6 @@
 #' @title Set log phase
 #' @export
+#' @family phase
 #' @description Set the current log phase.
 #' @return `NULL` (invisibly). Called for its side effects.
 #' @param phase Character string with the phase of the log.

@@ -6,7 +6,7 @@
  */
 
 #include "metrics.h"
-#if LINUX
+#if OS_LINUX
 
 #include <string.h>
 #include <sys/sysinfo.h>

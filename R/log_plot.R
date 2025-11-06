@@ -1,5 +1,6 @@
 #' @title Plot a metric of a process over time
 #' @export
+#' @family log
 #' @description Visualize a metric of a log over time for a single process ID
 #'   in a single log file.
 #' @return A base plot of a metric of a log over time.

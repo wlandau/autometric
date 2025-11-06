@@ -4,46 +4,72 @@
 #include <time.h>
 #include <unistd.h>
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-#define WINDOWS 1
-#else
-#define WINDOWS 0
+#ifndef OS_WINDOWS
+  #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || \
+    defined(__NT__)
+    #define OS_WINDOWS 1
+  #else
+    #define OS_WINDOWS 0
+  #endif
 #endif
 
-#if defined(__APPLE__) && defined(__MACH__)
-#define MAC 1
-#else
-#define MAC 0
+#ifndef OS_MAC
+  #if defined(__APPLE__) && defined(__MACH__)
+    #define OS_MAC 1
+  #else
+    #define OS_MAC 0
+  #endif
 #endif
 
-#if defined(__linux__)
-#define LINUX 1
-#else
-#define LINUX 0
+#ifndef OS_LINUX
+  #if defined(__linux__)
+    #define OS_LINUX 1
+  #else
+    #define OS_LINUX 0
+  #endif
 #endif
 
-#if defined(WINDOWS) || defined(MAC) || defined(LINUX)
-#define SUPPORTED_OS 1
-#else
-#define SUPPORTED_OS 0
+#ifndef SUPPORT_OS
+  #if defined(OS_WINDOWS) || defined(OS_MAC) || defined(OS_LINUX)
+    #define SUPPORT_OS 1
+  #else
+    #define SUPPORT_OS 0
+  #endif
 #endif
 
-#if (defined(_POSIX_TIMERS) && (_POSIX_TIMERS > 0)) || MAC
-#define TIMERS 1
-#else
-#define TIMERS 0
+#ifndef SUPPORT_TIMERS
+  #if (defined(_POSIX_TIMERS) && (_POSIX_TIMERS > 0)) || OS_MAC
+    #define SUPPORT_TIMERS 1
+  #else
+    #define SUPPORT_TIMERS 0
+  #endif
 #endif
 
-#ifdef _POSIX_THREADS
-#define THREADS 1
-#else
-#define THREADS 0
+#ifndef SUPPORT_THREADS
+  #ifdef _POSIX_THREADS
+    #define SUPPORT_THREADS 1
+  #else
+    #define SUPPORT_THREADS 0
+  #endif
 #endif
 
-#if SUPPORTED_OS && THREADS && (TIMERS || WINDOWS)
-#define SUPPORT 1
-#else
-#define SUPPORT 0
+#ifndef SUPPORT_LOG
+  #if SUPPORT_OS && SUPPORT_THREADS && (SUPPORT_TIMERS || OS_WINDOWS)
+    #define SUPPORT_LOG 1
+  #else
+    #define SUPPORT_LOG 0
+  #endif
+#endif
+
+#ifndef SUPPORT_READDIR
+  #define SUPPORT_READDIR 0
+  #ifdef _POSIX_VERSION
+    #if _POSIX_C_SOURCE >= 200809L || OS_MAC
+      #undef SUPPORT_READDIR
+      #define SUPPORT_READDIR 1
+      #define _XOPEN_SOURCE 600
+    #endif
+  #endif
 #endif
 
 #endif

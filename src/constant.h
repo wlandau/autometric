@@ -1,6 +1,7 @@
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef CONSTANT_H
+#define CONSTANT_H
 
+#define BUFFER_SIZE 2048
 #define ERROR_ARITHMETIC 10000
 #define ERROR_BUFFER 10001
 #define ERROR_FILE 10002

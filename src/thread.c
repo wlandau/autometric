@@ -1,11 +1,11 @@
 #include "support.h"
 
-#if SUPPORT
+#if SUPPORT_LOG
 #include "thread.h"
 
 pthread_mutex_t run_mutex = PTHREAD_MUTEX_INITIALIZER;
 int run_flag = 0;
-char run_phase[PHASE_N] = PHASE_DEFAULT;
+char run_phase[BUFFER_SIZE] = PHASE_DEFAULT;
 
 pthread_args_t* pthread_args_init(
   SEXP path,
@@ -87,8 +87,8 @@ void pthread_phase_reset(void) {
 
 void pthread_phase_set(const char* phase) {
   pthread_mutex_lock(&run_mutex);
-  strncpy(run_phase, phase, PHASE_N - 1);
-  run_phase[PHASE_N - 1] = '\0';
+  strncpy(run_phase, phase, BUFFER_SIZE - 1);
+  run_phase[BUFFER_SIZE - 1] = '\0';
   pthread_mutex_unlock(&run_mutex);
 }
 
@@ -101,7 +101,7 @@ int pthread_run_flag_get(void) {
 }
 
 void* pthread_run(void* arg) {
-  char phase[PHASE_N];
+  char phase[BUFFER_SIZE];
   pthread_args_t* args = (pthread_args_t*) arg;
   time_spec_t sleep_spec = time_spec_init(args->seconds, args->nanoseconds);
   metrics_t* metrics_array = metrics_array_init(args->n_pids);

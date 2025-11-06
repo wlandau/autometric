@@ -9,7 +9,7 @@
  */
 
 #include "metrics.h"
-#if MAC
+#if OS_MAC
 
 #include <stdio.h>
 #include <mach/mach.h>

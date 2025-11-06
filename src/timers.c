@@ -1,6 +1,6 @@
 #include "timers.h"
 
-#if TIMERS
+#if SUPPORT_TIMERS
 
 double seconds_current(void) {
   struct timespec time;
@@ -25,7 +25,7 @@ void sleep_interval(const time_spec_t time_spec) {
   nanosleep(&time_spec, NULL);
 }
 
-#elif WINDOWS
+#elif OS_WINDOWS
 
 time_spec_t time_spec_init(
   const int seconds,

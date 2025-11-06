@@ -1,5 +1,6 @@
 #' @title Read a log.
 #' @export
+#' @family log
 #' @description Read a log file into R.
 #' @details [log_read()] is capable of reading a log file where both
 #'   `autometric` and other processes have printed. Whenever `autometric`
@@ -131,7 +132,7 @@ log_read <- function(
   out$name[is.na(out$name)] <- ""
   out$status <- as.integer(out$status)
   factor_cpu <- get_factor_cpu(units_cpu)
-  factor_memory <- get_factor_memory(units_memory)
+  factor_memory <- get_factor_size(units_memory)
   factor_time <- get_factor_time(units_time)
   for (field in c("core", "cpu")) {
     out[[field]] <- as.numeric(out[[field]] * factor_cpu)
@@ -163,34 +164,4 @@ list_files <- function(path, hidden) {
   } else {
     character(0L)
   }
-}
-
-get_factor_time <- function(units) {
-  switch(
-    units,
-    seconds = 1,
-    minutes = 1 / 60,
-    hours = 1 / (60 * 60),
-    days = 1 / (60 * 60 * 24)
-  )
-}
-
-get_factor_cpu <- function(units) {
-  switch(
-    units,
-    percentage = 1,
-    fraction = 1 / 100
-  )
-}
-
-c("megabytes", "bytes", "kilobytes", "gigabytes")
-
-get_factor_memory <- function(units) {
-  switch(
-    units,
-    bytes = 1L,
-    kilobytes = 1e-3,
-    megabytes = 1e-6,
-    gigabytes = 1e-9
-  )
 }

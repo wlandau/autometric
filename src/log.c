@@ -1,6 +1,6 @@
-#include "autometric.h"
+#include "log.h"
 #include "support.h"
-#if SUPPORT
+#if SUPPORT_LOG
 
 #include "metrics.h"
 #include "thread.h"
@@ -10,7 +10,7 @@ SEXP log_active(void) {
 }
 
 SEXP log_phase_get(void) {
-  char phase[PHASE_N];
+  char phase[BUFFER_SIZE];
   pthread_phase_get(phase);
   SEXP out = PROTECT(mkString(phase));
   UNPROTECT(1);
@@ -41,7 +41,7 @@ SEXP log_print(
   const int* pids_ = INTEGER(pids);
   const int n_pids_ = INTEGER(n_pids)[0];
   const char** names_ = (const char**) malloc(n_pids_ * sizeof(char*));
-  char phase[PHASE_N];
+  char phase[BUFFER_SIZE];
   if (names_ == NULL) {
     return R_NilValue;
   }
